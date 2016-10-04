@@ -1,0 +1,373 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: \n"
+"POT-Creation-Date: 2016-06-20 21:04+0200\n"
+"PO-Revision-Date: 2016-06-20 21:05+0200\n"
+"Last-Translator: \n"
+"Language-Team: \n"
+"Language: it_IT\n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Generator: Poedit 1.8.8\n"
+"X-Poedit-Basepath: ../../..\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Poedit-SearchPath-0: plugin.py\n"
+
+#: plugin.py:86
+msgid "83"
+msgstr "2015/10/27"
+
+#: plugin.py:87
+msgid "8888"
+msgstr "8888 (standard)"
+
+#: plugin.py:90 plugin.py:94 plugin.py:98 plugin.py:102
+msgid "No"
+msgstr "No"
+
+#: plugin.py:91 plugin.py:95 plugin.py:99 plugin.py:210
+msgid "Yes"
+msgstr "Sì"
+
+#: plugin.py:103
+msgid "CI+ V13"
+msgstr "CI + V13"
+
+#: plugin.py:104
+msgid "CI+ V14"
+msgstr "CI + V14"
+
+#: plugin.py:137
+msgid "None"
+msgstr "Nessuna"
+
+#: plugin.py:183
+msgid "Your STB is not connected to the Internet"
+msgstr "STB non è connesso a Internet"
+
+#: plugin.py:183 plugin.py:184 plugin.py:191 plugin.py:195
+msgid "press color button or lame for exit"
+msgstr "pulsante  rosso per l'uscita"
+
+#: plugin.py:191 plugin.py:204
+msgid "Warning"
+msgstr "Avvertimento"
+
+#: plugin.py:192
+msgid "Unsupportet CPU"
+msgstr "Unsupportet CPU"
+
+#: plugin.py:192
+msgid "found"
+msgstr "Trovato"
+
+#: plugin.py:193
+msgid "OScam can not be installed"
+msgstr "OSCAM non può essere installato"
+
+#: plugin.py:204
+msgid "valueless Softam found. Press GREEN to remove"
+msgstr "privo di valore Softam trovato. Premete VERDE per rimuovere"
+
+#: plugin.py:204
+msgid ""
+"Remove all first.\n"
+"otherwise Oscamsmartcard will not start\n"
+"Press GREEN to remove all"
+msgstr "Rimuovere tutti di prima. \ NAltrimenti Oscamsmartcard non si avvia \ nPremi VERDE per rimuovere tutti"
+
+#: plugin.py:211
+msgid ".)  "
+msgstr "2015/10/27  "
+
+#: plugin.py:237
+msgid ""
+"INFORMATION: make your selection and press GREEN\n"
+"All config files are backed up automatically"
+msgstr "INFORMAZIONI: effettuare la selezione e premere i file di configurazione VERDE \ nTutti vengono salvati automaticamente"
+
+#: plugin.py:239
+msgid "Config path set automatically to"
+msgstr "percorso Config impostato automaticamente"
+
+#: plugin.py:240
+msgid "Camstart set automatically to"
+msgstr "Camstart automaticamente impostato su"
+
+#: plugin.py:241
+msgid "Oscam type set automatically to"
+msgstr "percorso Config impostato automaticamente"
+
+#: plugin.py:242
+msgid "Cardreader found automatically"
+msgstr "Cardreader trovato automaticamente"
+
+#: plugin.py:244
+msgid "Settings:"
+msgstr "Impostazioni"
+
+#: plugin.py:245
+msgid "Select OScam WebifPort:"
+msgstr "Selezionare OSCAM WebifPort:"
+
+#: plugin.py:245
+msgid ""
+"INFORMATION: Select OScam WebifPort\n"
+"\n"
+"Oscam Webif will be accessible on the selected port.\n"
+"e.g. http:\\IPOFYOURBOX:83"
+msgstr "INFORMAZIONI: Selezionare OSCAM 
+WebifPort \ n \ nOscam WebIf saranno accessibili sul porto selezionato \
+ ne.g.. http: \\ IPOFYOURBOX: 83"
+
+#: plugin.py:247
+msgid "Internal Reader /dev/sci0:"
+msgstr "Interno del lettore / dev / sci0:"
+
+#: plugin.py:247
+msgid ""
+"INFORMATION: Internal Reader /dev/sci0\n"
+"\n"
+"All STB's having only one cardslot.\n"
+"On STB's having two cardslots it is mostly the lower cardslot."
+msgstr "INFORMAZIONI: lettore interno / dev / 
+sci0 \ n \ nTutti STB di avere un solo cardslot \ Non STB di avere due 
+cardslots è soprattutto il cardslot inferiore.."
+
+#: plugin.py:249
+msgid "Internal Reader /dev/sci1:"
+msgstr "Interno del lettore / dev / SCI1:"
+
+#: plugin.py:249
+msgid ""
+"INFORMATION: Internal Reader /dev/sci1\n"
+"\n"
+"On STB's having two cardslots it is mostly the upper cardslot."
+msgstr "INFORMAZIONI: lettore interno / dev / SCI1 \ n \ Non STB di avere due cardslots è soprattutto il cardslot superiore."
+
+#: plugin.py:251
+msgid "External Reader /dev/ttyUSB0:"
+msgstr "Esterno Reader / dev / ttyUSB0:"
+
+#: plugin.py:251
+msgid ""
+"INFORMATION: External Reader /dev/ttyUSB0\n"
+"\n"
+"This Reader can be used to configure for example a connected easymouse."
+msgstr "INFORMAZIONI: lettore esterno / dev / 
+ttyUSB0 \ n \ nIl Reader può essere utilizzato per configurare, ad 
+esempio un Easymouse collegato."
+
+#: plugin.py:253
+msgid "External Reader /dev/ttyUSB1:"
+msgstr "Esterno Reader / dev / ttyUSB1:"
+
+#: plugin.py:253
+msgid ""
+"INFORMATION: External Reader /dev/ttyUSB1\n"
+"\n"
+"This Reader can be used to configure for example a second connected "
+"easymouse."
+msgstr "INFORMAZIONI: lettore esterno / dev / 
+ttyUSB1 \ n \ nIl Reader può essere utilizzato per configurare, ad 
+esempio un secondo Easymouse collegata."
+
+#: plugin.py:259
+msgid "CCcam.cfg found. Import your settings"
+msgstr "CCcam.cfg trovato. Importare le impostazioni"
+
+#: plugin.py:259
+msgid "Oscamsmartcard found "
+msgstr "Oscamsmartcard trovato"
+
+#: plugin.py:259
+msgid " Server and "
+msgstr "Server"
+
+#: plugin.py:260
+msgid "Oscam binary install"
+msgstr "binario OSCAM installazione"
+
+#: plugin.py:260
+msgid "install or update to the latest version"
+msgstr "installare o aggiornare alla versione più recente"
+
+#: plugin.py:260
+msgid "installed"
+msgstr "installato"
+
+#: plugin.py:260
+msgid "online avaible"
+msgstr "Ottima linea"
+
+#: plugin.py:263
+msgid "Install oscam EMU Version:"
+msgstr "Installare OSCAM Versione EMU:"
+
+#: plugin.py:263
+msgid ""
+"INFORMATION: install Oscam Emu Version\n"
+"\n"
+"Softcam.key included"
+msgstr "INFORMAZIONI: Installare Oscam Emu Version \ n \ nSoftcam.key incluso"
+
+#: plugin.py:264
+msgid "Is a Ci+Module installed:"
+msgstr "È un modulo CI + installato:"
+
+#: plugin.py:264
+msgid ""
+"INFORMATION: please select your CI+ Modul\n"
+"\n"
+msgstr "INFORMAZIONI: Si prega di selezionare il Modul \ n \ n CI +"
+
+#: plugin.py:312
+msgid "Do you really want to reboot now ?"
+msgstr "Vuoi davvero riavviare ora?"
+
+#: plugin.py:313
+msgid "Restart"
+msgstr "Ricomincia"
+
+#: plugin.py:316
+msgid ""
+"All Softcams will be deinstalled\n"
+"Are you sure ?"
+msgstr "Tutti softcams verrà disinstallato \ nSei sicuro"
+
+#: plugin.py:317
+msgid "System cleaning"
+msgstr "sistema di pulizia"
+
+#: plugin.py:321
+msgid "Information"
+msgstr "Informazioni"
+
+#: plugin.py:362
+msgid ""
+"Oscam is not running\n"
+"unknown OS"
+msgstr "Oscam non è in esecuzione \ nunknown OS"
+
+#: plugin.py:368
+msgid "Oscam is now running"
+msgstr "OSCAM è ora in esecuzione"
+
+#: plugin.py:370
+msgid ""
+"Oscam Binary is not installed\n"
+"You must this install"
+msgstr "OSCAM binario non è installato \ nÈ necessario installare questo"
+
+#: plugin.py:408
+msgid "Error creating oscam.server!"
+msgstr "Errore durante la creazione oscam.server!"
+
+#: plugin.py:434
+msgid "Error creating oscam.dvbapi!"
+msgstr "Errore durante la creazione oscam.dvbapi!"
+
+#: plugin.py:479
+msgid "Error creating oscam.user!"
+msgstr "Errore durante la creazione oscam.user!"
+
+#: plugin.py:504
+msgid "Error creating oscam.conf!"
+msgstr "Errore durante la creazione oscam.conf!"
+
+#: plugin.py:527
+msgid "Error creating oscam.services!"
+msgstr "Errore nella creazione oscam.services!"
+
+#: plugin.py:539 plugin.py:567
+msgid "Download not avaible"
+msgstr "Download non disponibile"
+
+#: plugin.py:584
+msgid "Error"
+msgstr "Errore"
+
+#: plugin.py:584
+msgid "file exists, but is not executable"
+msgstr "file esiste, ma non è eseguibile"
+
+#: plugin.py:592
+msgid "no oscam_oscamsmartcard found"
+msgstr "no oscam_oscamsmartcard trovati"
+
+#: plugin.py:670
+msgid "Error creating oscam camstart files!"
+msgstr "Errore durante la creazione di file OSCAM camstart!"
+
+#: plugin.py:710
+msgid ""
+"Do you really want to remove all\n"
+"oscam_smartcard configs, binary's and camstartfiles.\n"
+"No backup !!"
+msgstr "Vuoi veramente rimuovere tutti i file di configurazione noscam_smartcard \, binari e di camstartfiles. \ Backup nNo !!"
+
+#: plugin.py:711
+msgid "remove current config"
+msgstr "rimuovere config corrente"
+
+#: plugin.py:817
+msgid "Configuration tool for OScam"
+msgstr "Tool di progettazione per OSCam"
+
+msgid "All config files are backed up automatically"
+msgstr "Tutti i file di configurazione vengono salvati automaticamente"
+
+msgid "Script SoftCamstart (openMips)"
+msgstr "Caricamento script"
+
+msgid "Python SoftCamstart (openATV)"
+msgstr "Python SoftCamstart"
+
+msgid "/usr/keys/ (openATV)"
+msgstr "/ Usr / keys /"
+
+msgid "/etc/tuxbox/config/ (openMips)"
+msgstr "/ etc / tuxbox / config / (openpli)"
+
+msgid "Do you really want to reboot now?"
+msgstr "Vuoi davvero riavviare ora?"
+
+msgid "Restart STB"
+msgstr "riavvio STB"
+
+msgid "Make here your Settings:"
+msgstr "Fai qui le tue impostazioni:"
+
+msgid "Make your Selection"
+msgstr "Effettuare la selezione"
+
+msgid "Which Ci+Module is installed:"
+msgstr "Quale modulo CI + è installato:"
+
+msgid "Uninstall all Softcams ?"
+msgstr "Disinstallare tutti softcams?"
+
+msgid "make your selection and press GREEN"
+msgstr "effettuare la selezione e premere il tasto VERDE"
+
+msgid "it is strongly recommended"
+msgstr "è fortemente raccomandato"
+
+msgid ""
+"Ok Done\n"
+"Oscamsmartcard is now running"
+msgstr "OSCAM è ora in esecuzione"
+
+msgid "found installed Softcams to be remove"
+msgstr "trovato installato softcams da rimuovere"
+
+msgid "INFORMATION: "
+msgstr "Informazioni"
+
+msgid "Warning : "
+msgstr "Avvertimento"
+
+msgid "CCcam.cfg found. "
+msgstr "CCcam.cfg trovato. Importare le impostazioni"
+
