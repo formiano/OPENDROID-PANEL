@@ -11,7 +11,7 @@ from Tools.LoadPixmap import LoadPixmap
 from AddonsPanel import * 
 from Plugin import *
 from OPENDROID.OPD_panel import OPD_panel
-
+from Screens.Ipkg import Ipkg
 class GreenPanel(Screen):
 	skin = """
 		<screen name="GreenPanel" position="center,60" size="1225,635" title="OPENDROID Green Panel" >

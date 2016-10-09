@@ -329,7 +329,7 @@ class InstallFeed(Screen):
 		Screen.__init__(self, session)
 
 		self["key_green"] = Label(_("Addons"))
-		self["key_red"] = Label(_("Update"))
+		self["key_red"] = Label(_("Software-Manager"))
 		self.list = []
 		self["list"] = List(self.list)
 		self.updateList()
