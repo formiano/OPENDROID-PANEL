@@ -12,6 +12,7 @@ from Tools.Directories import resolveFilename, SCOPE_CURRENT_PLUGIN, SCOPE_CURRE
 from Screens.MessageBox import MessageBox
 from Screens.Console import Console
 from enigma import *
+
 from Components.UsageConfig import config
 from twisted.internet import threads
 from enigma import eTimer, eConsoleAppContainer
@@ -480,7 +481,7 @@ class BluePanel(ConfigListScreen, Screen):
 		import time
 		self.container = eConsoleAppContainer()
 
-		if config.softcam.camstartMode.value == "0" or not fileExists('/etc/init.d/softcam'):
+		if config.softcam.camstartMode.value == "0":
 			if oldcam:
 				print '[SOFTCAM] Python stop cam 1: ' + oldcam
 				self.container.execute(self.emuStop[oldcamIndex])
@@ -1133,7 +1134,9 @@ config.OPENDROID_Bluepanel = ConfigSubsection()
 config.softcam.actCam = ConfigText(visible_width = 200)
 config.softcam.actCam2 = ConfigText(visible_width = 200)
 config.softcam.restartRunning = ConfigYesNo(default=True)
+config.softcam.waittime = ConfigSelection([('0',_("dont wait")),('1',_("1 second")), ('5',_("5 seconds")),('10',_("10 seconds")),('15',_("15 seconds")),('20',_("20 seconds")),('30',_("30 seconds"))], default='15')
 config.softcam.restartAttempts =  ConfigSelection(
+
                     [
                     ("0", _("0 (disabled)")),
                     ("1", _("1")),

@@ -43,13 +43,7 @@ inOPD_panel = None
 config.softcam = ConfigSubsection()
 config.softcam.actCam = ConfigText(visible_width=200)
 config.softcam.actCam2 = ConfigText(visible_width=200)
-config.softcam.waittime = ConfigSelection([('0', _('dont wait')),
- ('1', _('1 second')),
- ('5', _('5 seconds')),
- ('10', _('10 seconds')),
- ('15', _('15 seconds')),
- ('20', _('20 seconds')),
- ('30', _('30 seconds'))], default='15')
+config.softcam.waittime = ConfigSelection([('0',_("dont wait")),('1',_("1 second")), ('5',_("5 seconds")),('10',_("10 seconds")),('15',_("15 seconds")),('20',_("20 seconds")),('30',_("30 seconds"))], default='15')
 
 if os.path.isfile('/usr/lib/enigma2/python/Plugins/Extensions/MultiQuickButton/plugin.pyo') is True:
     try:
@@ -196,7 +190,7 @@ class OPD_panel(Screen, InfoBarPiP):
             print '[OPD_panel] SHOW'
             OPD_panel = self
         except:
-            print '[OPD-Panel] Error Hide'
+            print '[OPD_Panel] Error Hide'
 
         if services is not None:
             self.servicelist = services

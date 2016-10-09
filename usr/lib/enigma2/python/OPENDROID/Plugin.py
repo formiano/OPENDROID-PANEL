@@ -31,202 +31,6 @@ from Components.Button import Button
 from Components.Sources.StaticText import StaticText
 mypanel = None
 
-################
-#  User Script #
-################  
-class UserScript(Screen):
-	skin = """<screen name="UserScript" position="80,100" size="560,410" title="Script Panel">
-		  <widget source="list" render="Listbox" position="10,10" size="540,300" scrollbarMode="showOnDemand" >
-		  <convert type="StringList" />
-		  </widget>
-		  <widget name="key_green" position="225,355" zPosition="1" size="140,40" font="Regular;20" foregroundColor="green" backgroundColor="green" transparent="1" />
-		  </screen>"""
-
-	def __init__(self, session):
-		Screen.__init__(self, session)
-		self['key_green'] = Label('Run')
-		self.mlist = []
-		self.populateSL()
-		self['list'] = List(self.mlist)
-		self['list'].onSelectionChanged.append(self.schanged)
-		self['actions'] = ActionMap(['WizardActions', 'ColorActions'], {'ok': self.Run, 'back': self.close, 'yellow': self.Run})
-		self.onLayoutFinish.append(self.selection)
-
-	def selection(self):
-		self['list'].index = 1
-		self['list'].index = 0
-
-	def populateSL(self):
-		myscripts = listdir('/usr/script')
-		for fil in myscripts:
-			if fil.find('.sh') != -1:
-				fil2 = fil[:-3]
-				desc = 'N/A'
-				f = open('/usr/script/' + fil, 'r')
-				for line in f.readlines():
-					if line.find('#DESCRIPTION=') != -1:
-						line = line.strip()
-						desc = line[13:]
-						continue
-				f.close()
-				res = (fil2, desc)
-				self.mlist.append(res)
-				continue
-
-	def schanged(self):
-		mysel = self['list'].getCurrent()
-		if mysel:
-			mysel
-			mytext = ' ' + mysel[1]
-		else:
-			mysel
-
-	def Run(self):
-		mysel = self['list'].getCurrent()
-		if mysel:
-			mysel
-			mysel = mysel[0]
-			mysel2 = '/usr/script/' + mysel + '.sh'
-			mytitle = 'Script: ' + mysel
-			self.session.open(Console, title=mytitle, cmdlist=[mysel2])
-		else:
-			mysel
-
-###################  
-# Pannel CrashLog #
-###################  
-class CrashLogScreen(Screen):
-	skin = """
-		<screen name="CrashLogScreen" position="center,60" size="1225,635" title="OPENDROID Crashlog Panel" >
-		<widget source="menu" render="Listbox" position="20,20" size="560,300" scrollbarMode="showOnDemand" transparent="1" >
-		<convert type="TemplatedMultiContent">
-		{"template": [
-		MultiContentEntryText(pos = (20, 2), size = (580, 25), font=0, flags = RT_HALIGN_LEFT, text = 0), # index 2 is the Menu Titel
-		MultiContentEntryText(pos = (35, 29), size = (580, 18), font=1, flags = RT_HALIGN_LEFT, text = 1), # index 3 is the Description
-		
-			],
-		"fonts": [gFont("Regular", 20),gFont("Regular", 15)],
-		"itemHeight": 50
-		}
-		</convert>
-		</widget>
-		<widget name="key_red" position="135,600" zPosition="1" size="180,45" font="Regular;20" foregroundColor="red" backgroundColor="red" transparent="1" />		
-		<widget name="key_green" position="410,600" zPosition="1" size="180,45" font="Regular;20" foregroundColor="green" backgroundColor="green" transparent="1" />
-		<widget name="key_yellow" position="675,600" zPosition="1" size="180,45" font="Regular;20" foregroundColor="yellow" backgroundColor="yellow" transparent="1" />
-		<widget name="key_blue" position="945,600" zPosition="1" size="180,45" font="Regular;20" foregroundColor="blue" backgroundColor="blue" transparent="1" />
-		</screen>"""
-
-	def __init__(self, session):
-		Screen.__init__(self, session)
-		self.session = session
-		self.list = []
-		self["menu"] = List(self.list)
-		self.CfgMenu()
-		self["key_red"] = Label(_("Close"))
-		self["key_green"] = Label(_("View"))
-		self["key_yellow"] = Label(_("Remove"))
-		self["key_blue"] = Label(_("Remove All"))
-		self['actions'] = ActionMap(['WizardActions','ColorActions'],
-
-		{
-			"ok": self.Ok,
-			"cancel": self.exit,
-			"back": self.exit,
-			"red": self.exit,
-			"green": self.Ok,
-			"yellow": self.YellowKey,
-			"blue": self.BlueKey,
-			})
-		
-		
-		
-	def CfgMenu(self):
-		self.list = []
-		crashfiles = os.popen("ls -lhe /media/hdd/enigma2_crash*.log /media/usb/enigma2_crash*.log")
-		cached=True
-		for line in crashfiles:
-			item = line.split(" ")
-			name = item[-1].split("/")
-			self.list.append((name[-1][:-5],("%s %s %s %s %s" % ( item[-7], item[-4], item[-5], item[-2], item[-3])), cached, ("/%s/%s/" % (name[-3],name[-2]))))
-		self["menu"].setList(self.list)
-		self["actions"] = ActionMap(["OkCancelActions"], { "cancel": self.close}, -1)
-		
-	def Ok(self):
-		item = self["menu"].getCurrent()
-		global Crashfile
-		try:
-			Crashfile = item[3] + item[0] + ".log"
-			self.session.openWithCallback(self.CfgMenu,LogScreen)
-		
-		except:
-			Crashfile = " "
-	
-	def YellowKey(self):
-		item = self["menu"].getCurrent()
-		try:
-			file = item[3] + item[0] + ".log"
-			os.system("rm %s"%(file))
-			self.mbox = self.session.open(MessageBox,(_("Removed %s") % (file)), MessageBox.TYPE_INFO, timeout = 4 )
-		except:
-			self.mbox = self.session.open(MessageBox,(_("Failed remove")), MessageBox.TYPE_INFO, timeout = 4 )
-		self.CfgMenu()
-		
-	def BlueKey(self):
-		try:
-			os.system("rm /media/hdd/enigma2_crash*.log /media/usb/enigma2_crash*.log")
-			self.mbox = self.session.open(MessageBox,(_("Removed All Crashlog Files") ), MessageBox.TYPE_INFO, timeout = 4 )
-		except:
-			self.mbox = self.session.open(MessageBox,(_("Failed remove")), MessageBox.TYPE_INFO, timeout = 4 )
-		self.CfgMenu()
-		
-	def exit(self):
-		self.close()
-####################################################################
-class LogScreen(Screen):
-	skin = """
-		<screen name="LogScreen" position="center,center" size="800,500" title="View Crashlog file">
-		<widget name="key_red" position="330,455" zPosition="2" size="170,30" font="Regular;20" halign="center" valign="center" foregroundColor="red" transparent="1" />
-	 	<widget name="text" position="10,10" size="750,440" font="Console;16" transparent="1" />
-		</screen>"""
-	def __init__(self, session):
-		self.session = session
-
-		Screen.__init__(self, session)
-		self["shortcuts"] = ActionMap(["ShortcutActions", "WizardActions"],
-		{
-			"cancel": self.exit,
-			"back": self.exit,
-			"red": self.exit,
-			
-			})
-		self["key_red"] = Label(_("Close"))
-		self["text"] = ScrollLabel("")
-		self.listcrah()
-		
-	def exit(self):
-		self.close()
-	
-	def listcrah(self):
-		list = " "
-		crashfiles = open(Crashfile, "r")
-		for line in crashfiles:
-			if line.find("Traceback (most recent call last):") != -1:
-				for line in crashfiles:
-					list += line
-					if line.find("]]>") != -1:
-						break
-		self["text"].setText(list)
-		crashfiles.close()
-		global Crashfile
-		self["actions"] = ActionMap(["OkCancelActions", "DirectionActions"], 
-		{ "cancel": self.close, 
-		  "up": self["text"].pageUp, 
-		  "left": self["text"].pageUp, 
-		  "down": self["text"].pageDown, 
-		  "right": self["text"].pageDown,}, -1)
-
-
-
 
 ###########################
 # Manual Pannel installer #
@@ -401,7 +205,7 @@ class AdvInstallIpk(Screen):
 		</widget>
 		<widget source="key_red" render="Label" position="40,360" zPosition="2" size="170,30" font="Regular;20" foregroundColor="red" transparent="1" />
 		<widget source="key_green" render="Label" position="220,360" zPosition="2" size="170,30" font="Regular;20" foregroundColor="green" transparent="1" />
-		
+		<widget source="key_yellow" render="Label" position="400,360" zPosition="2" size="170,30" font="Regular;20" foregroundColor="yellow" transparent="1" />
 		</screen>"""
 	  
 	def __init__(self, session, args=None):
@@ -525,9 +329,7 @@ class InstallFeed(Screen):
 		Screen.__init__(self, session)
 
 		self["key_green"] = Label(_("Addons"))
-		self["key_red"] = Label(_("Software-Manager"))
-		self["key_blue"] = Label(_("Satloader"))
-
+		self["key_red"] = Label(_("Update"))
 		self.list = []
 		self["list"] = List(self.list)
 		self.updateList()
@@ -538,7 +340,7 @@ class InstallFeed(Screen):
 			"back": self.close,
 			"red": self.keyRed,
 			"green": self.keyGreen,
-			"blue": self.keyBlue
+			
 		}, -1)
 
 	def runPlug(self):
@@ -568,8 +370,5 @@ class InstallFeed(Screen):
 		from Screens.PluginBrowser import PluginDownloadBrowser
 		self.session.open(PluginDownloadBrowser)
 
-	def keyBlue(self):
-		from OPENDROID.Satloader import Satloader, SatloaderAbout, SatloaderBouquet, SatloaderMultiSat, TransponderSelection, SatloaderList, SatListEntry
-		self.session.open(Satloader)
-
+	
 

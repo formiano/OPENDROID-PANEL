@@ -738,7 +738,7 @@ class OscamSmartcard(ConfigListScreen, Screen):
 		config.OPENDROID_OscamSmartcard.internalReader0.value = "none"
 		config.OPENDROID_OscamSmartcard.internalReader1.value = "none"
 		config.OPENDROID_OscamSmartcard.externalReader0.value = "none"
-		config.OPENDROID_OscamSmartcard.externalReader1.value = "none"
+		config.OPENDROID.OscamSmartcard.externalReader1.value = "none"
 		config.OPENDROID_OscamSmartcard.emu.value = "no_emu"
 		config.OPENDROID_OscamSmartcard.hasciplus.value = "no_ciplus"
 		config.OPENDROID_OscamSmartcard.save()        
