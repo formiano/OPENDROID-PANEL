@@ -65,7 +65,24 @@ def command(comandline, strip=1):
 
 	
 	
-SOFTCAM_SKIN = '<screen name="BluePanel" position="center,center" size="780,550" title="OPD Blue Panel">\n\t\t\t<widget name="choose_cam" position="10,10" size="185,30" font="Regular;22" />\n\t\t\t<widget name="config" position="10,100" size="400,100" transparent="1" />\n\t\t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/icons/default_cam.png" position="70,60" size="800,60" transparent="1" alphatest="on"/>\n\t\t\t<widget name="ecminfo" position="180,215" size="400,290" font="Regular;18" />\n\t    \t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/menu/camcenter.png" zPosition="0" position="530,50" size="160,160" transparent="1" alphatest="on" />\n\t\t\t<ePixmap position="40,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/redpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="200,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/greenpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="360,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/yellowpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="550,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/bluepanel.png" transparent="1" alphatest="on"/>\n\t\t\t<widget name="key_red" position="70,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="red" transparent="1" />\n\t\t\t<widget name="key_green" position="230,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="green" transparent="1" />\n\t\t\t<widget name="key_yellow" position="390,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="yellow" transparent="1" />\n\t\t\t<widget name="key_blue" position="580,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="blue" transparent="1" />\n\t\t</screen>'
+SOFTCAM_SKIN = """<screen name="BluePanel" position="center,center" size="500,450" title="Emu Manager">
+	<eLabel font="Regular;22" position="10,10" size="185,25" text="Softcam Selection:" />
+	<widget font="Regular;18" name="camcount" position="420,10" size="60,25" />
+	<widget name="config"    position="210,150" size="670,50" font="Regular;32" itemHeight="35" transparent="1" zPosition="1" />
+	<eLabel backgroundColor="red" position="10,60" size="120,3" zPosition="0" />
+	<eLabel backgroundColor="green" position="130,60" size="120,3" zPosition="0" />
+	<eLabel backgroundColor="yellow" position="250,60" size="120,3" zPosition="0" />
+	<eLabel backgroundColor="blue" position="370,60" size="120,3" zPosition="0" />
+	<widget font="Regular;16" halign="center" name="key_red" position="10,62" size="120,35" transparent="1" valign="center" zPosition="2" />
+	<widget font="Regular;16" halign="center" name="key_green" position="130,62" size="120,35" transparent="1" valign="center" zPosition="2" />
+	<widget font="Regular;16" halign="center" name="key_yellow" position="250,62" size="120,35" transparent="1" valign="center" zPosition="2" />
+	<widget font="Regular;16" halign="center" name="key_blue" position="370,62" size="120,35" transparent="1" valign="center" zPosition="2" />
+	<eLabel backgroundColor="#56C856" position="0,199" size="500,1" zPosition="0" />
+	<widget name="actifcam"  position="230,240" size="670,40" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
+	<widget name="actifcam2" position="230,280" size="670,50" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
+	<eLabel backgroundColor="#56C856" position="0,225" size="500,1" zPosition="0" />
+	<widget font="Regular;16" name="ecminfo" position="10,235" size="480,300" />
+</screen>"""
 
 
 REFRESH = 0
@@ -1136,7 +1153,6 @@ config.softcam.actCam2 = ConfigText(visible_width = 200)
 config.softcam.restartRunning = ConfigYesNo(default=True)
 config.softcam.waittime = ConfigSelection([('0',_("dont wait")),('1',_("1 second")), ('5',_("5 seconds")),('10',_("10 seconds")),('15',_("15 seconds")),('20',_("20 seconds")),('30',_("30 seconds"))], default='15')
 config.softcam.restartAttempts =  ConfigSelection(
-
                     [
                     ("0", _("0 (disabled)")),
                     ("1", _("1")),
