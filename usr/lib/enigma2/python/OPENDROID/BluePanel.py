@@ -1,3 +1,12 @@
+from twisted.internet import threads
+from Components.config import config
+from enigma import eTimer, eConsoleAppContainer
+from os import system, listdir, path, popen
+from datetime import datetime
+from Components.config import config, ConfigSubsection, ConfigText, ConfigSelection, ConfigYesNo
+from enigma import *
+import os
+import datetime
 from Components.config import config, ConfigSubsection, ConfigText, configfile, getConfigListEntry, ConfigSelection
 from Components.ConfigList import ConfigListScreen
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaBlend
@@ -12,18 +21,11 @@ from Tools.Directories import resolveFilename, SCOPE_CURRENT_PLUGIN, SCOPE_CURRE
 from Screens.MessageBox import MessageBox
 from Screens.Console import Console
 from enigma import *
-
-from Components.UsageConfig import config
-from twisted.internet import threads
-from enigma import eTimer, eConsoleAppContainer
-from os import system, listdir, path
-from datetime import datetime
 from ServiceReference import ServiceReference
 from enigma import eTimer, iServiceInformation, getDesktop
 import os
 from Screens.CCcamInfo import CCcamInfoMain
 from Screens.OScamInfo import OscamInfoMenu
-from Components.config import config, ConfigSubsection, ConfigText, ConfigSelection, ConfigYesNo
 def Check_Softcam():
 	found = False
 	for x in os.listdir('/etc'):
@@ -52,23 +54,10 @@ def command(comandline, strip=1):
 	os.system("rm /tmp/command.txt")
 	return comandline
 
-#class EMUlist(MenuList):
-#	def __init__(self, list=[], enableWrapAround = False):
-#		MenuList.__init__(self, list, enableWrapAround, eListboxPythonMultiContent)
-#		Schriftart = 22
-#		self.l.setFont(0, gFont("Regular", Schriftart))
-#		self.l.setItemHeight(24)
-
-#	def moveSelection(self,idx=0):
-#		if self.instance is not None:
-#			self.instance.moveSelectionTo(idx)
-
-	
-	
 SOFTCAM_SKIN = """<screen name="BluePanel" position="center,center" size="500,450" title="Emu Manager">
 	<eLabel font="Regular;22" position="10,10" size="185,25" text="Softcam Selection:" />
 	<widget font="Regular;18" name="camcount" position="420,10" size="60,25" />
-	<widget name="config"    position="210,150" size="670,50" font="Regular;32" itemHeight="35" transparent="1" zPosition="1" />
+	<widget name="config"    position="210,150" size="670,40" font="Regular;32" itemHeight="35" transparent="1" zPosition="1" />
 	<eLabel backgroundColor="red" position="10,60" size="120,3" zPosition="0" />
 	<eLabel backgroundColor="green" position="130,60" size="120,3" zPosition="0" />
 	<eLabel backgroundColor="yellow" position="250,60" size="120,3" zPosition="0" />
@@ -79,7 +68,7 @@ SOFTCAM_SKIN = """<screen name="BluePanel" position="center,center" size="500,45
 	<widget font="Regular;16" halign="center" name="key_blue" position="370,62" size="120,35" transparent="1" valign="center" zPosition="2" />
 	<eLabel backgroundColor="#56C856" position="0,199" size="500,1" zPosition="0" />
 	<widget name="actifcam"  position="230,240" size="670,40" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
-	<widget name="actifcam2" position="230,280" size="670,50" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
+	<widget name="actifcam2" position="230,280" size="670,40" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
 	<eLabel backgroundColor="#56C856" position="0,225" size="500,1" zPosition="0" />
 	<widget font="Regular;16" name="ecminfo" position="10,235" size="480,300" />
 </screen>"""
@@ -497,6 +486,16 @@ class BluePanel(ConfigListScreen, Screen):
 			oldcam2 = None
 		import time
 		self.container = eConsoleAppContainer()
+		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam.camstartMode))
+		if config.softcam.camstartMode.value == "0":
+		        self.list.append(getConfigListEntry(_("Start attempts"), config.softcam.restartAttempts))
+		        self.list.append(getConfigListEntry(_("Time between start attempts (sec.)"), config.softcam.restartTime))
+		        self.list.append(getConfigListEntry(_("Stop check when cam is running"), config.softcam.restartRunning))
+		        self.list.append(getConfigListEntry(_("Wait time before start Cam 2"), config.softcam.waittime))
+		        self["config"].list = self.list
+		        self["config"].setList(self.list)
+		        if config.usage.sort_settings.value:
+		                self["config"].list.sort()
 
 		if config.softcam.camstartMode.value == "0":
 			if oldcam:
@@ -1204,6 +1203,12 @@ class CamStart:
 		self.session = session
 		self.timer = eTimer()
 		self.timer.timeout.get().append(self.timerEvent)
+		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam.camstartMode))
+		if config.softcam.camstartMode.value == "0":
+		        self.list.append(getConfigListEntry(_("Start attempts"), config.softcam.restartAttempts))
+		        self.list.append(getConfigListEntry(_("Time between start attempts (sec.)"), config.softcam.restartTime))
+		        self.list.append(getConfigListEntry(_("Stop check when cam is running"), config.softcam.restartRunning))
+		        self.list.append(getConfigListEntry(_("Wait time before start Cam 2"), config.softcam.waittime))
 		self.service = None
 
 	def startTimer(self):
