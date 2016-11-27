@@ -7,6 +7,7 @@ from Components.config import config, ConfigSubsection, ConfigText, ConfigSelect
 from enigma import *
 import os
 import datetime
+from Components.config import ConfigSubsection, ConfigInteger, ConfigText, getConfigListEntry, ConfigSelection,  ConfigIP, ConfigYesNo, ConfigSequence, ConfigNumber, NoSave, ConfigEnableDisable, configfile
 from Components.config import config, ConfigSubsection, ConfigText, configfile, getConfigListEntry, ConfigSelection
 from Components.ConfigList import ConfigListScreen
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaBlend
@@ -53,6 +54,25 @@ def command(comandline, strip=1):
 	comandline = text
 	os.system("rm /tmp/command.txt")
 	return comandline
+	
+def camstart(reason, **kwargs):
+ if not config.OPENDROID.BluePanel_frozencheck.list.value == '0':
+  CamCheck()
+ try:
+  f = open("/proc/stb/video/alpha", "w")
+  f.write(str(config.osd.alpha.value))
+  f.close()
+ except:
+  print "[BluePanel] failed to write /proc/stb/video/alpha"
+  
+ try:
+  if config.softcam.camstartMode.value == "1":
+   global timerInstance
+   if timerInstance is None:
+    timerInstance = CamStart(None)
+   timerInstance.startTimer()
+ except:
+  print "[BluePanel] failed to run CamStart"
 
 SOFTCAM_SKIN = """<screen name="BluePanel" position="center,center" size="500,450" title="Emu Manager">
 	<eLabel font="Regular;22" position="10,10" size="185,25" text="Softcam Selection:" />
