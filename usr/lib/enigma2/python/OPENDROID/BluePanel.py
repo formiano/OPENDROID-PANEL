@@ -1,13 +1,3 @@
-from twisted.internet import threads
-from Components.config import config
-from enigma import eTimer, eConsoleAppContainer
-from os import system, listdir, path, popen
-from datetime import datetime
-from Components.config import config, ConfigSubsection, ConfigText, ConfigSelection, ConfigYesNo
-from enigma import *
-import os
-import datetime
-from Components.config import ConfigSubsection, ConfigInteger, ConfigText, getConfigListEntry, ConfigSelection,  ConfigIP, ConfigYesNo, ConfigSequence, ConfigNumber, NoSave, ConfigEnableDisable, configfile
 from Components.config import config, ConfigSubsection, ConfigText, configfile, getConfigListEntry, ConfigSelection
 from Components.ConfigList import ConfigListScreen
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaBlend
@@ -22,11 +12,18 @@ from Tools.Directories import resolveFilename, SCOPE_CURRENT_PLUGIN, SCOPE_CURRE
 from Screens.MessageBox import MessageBox
 from Screens.Console import Console
 from enigma import *
+
+from Components.UsageConfig import config
+from twisted.internet import threads
+from enigma import eTimer, eConsoleAppContainer
+from os import system, listdir, path
+from datetime import datetime
 from ServiceReference import ServiceReference
 from enigma import eTimer, iServiceInformation, getDesktop
 import os
 from Screens.CCcamInfo import CCcamInfoMain
 from Screens.OScamInfo import OscamInfoMenu
+from Components.config import config, ConfigSubsection, ConfigText, ConfigSelection, ConfigYesNo
 def Check_Softcam():
 	found = False
 	for x in os.listdir('/etc'):
@@ -54,44 +51,8 @@ def command(comandline, strip=1):
 	comandline = text
 	os.system("rm /tmp/command.txt")
 	return comandline
-	
-def camstart(reason, **kwargs):
- if not config.OPENDROID.BluePanel_frozencheck.list.value == '0':
-  CamCheck()
- try:
-  f = open("/proc/stb/video/alpha", "w")
-  f.write(str(config.osd.alpha.value))
-  f.close()
- except:
-  print "[BluePanel] failed to write /proc/stb/video/alpha"
-  
- try:
-  if config.softcam.camstartMode.value == "1":
-   global timerInstance
-   if timerInstance is None:
-    timerInstance = CamStart(None)
-   timerInstance.startTimer()
- except:
-  print "[BluePanel] failed to run CamStart"
 
-SOFTCAM_SKIN = """<screen name="BluePanel" position="center,center" size="500,450" title="Emu Manager">
-	<eLabel font="Regular;22" position="10,10" size="185,25" text="Softcam Selection:" />
-	<widget font="Regular;18" name="camcount" position="420,10" size="60,25" />
-	<widget name="config"    position="210,150" size="670,40" font="Regular;32" itemHeight="35" transparent="1" zPosition="1" />
-	<eLabel backgroundColor="red" position="10,60" size="120,3" zPosition="0" />
-	<eLabel backgroundColor="green" position="130,60" size="120,3" zPosition="0" />
-	<eLabel backgroundColor="yellow" position="250,60" size="120,3" zPosition="0" />
-	<eLabel backgroundColor="blue" position="370,60" size="120,3" zPosition="0" />
-	<widget font="Regular;16" halign="center" name="key_red" position="10,62" size="120,35" transparent="1" valign="center" zPosition="2" />
-	<widget font="Regular;16" halign="center" name="key_green" position="130,62" size="120,35" transparent="1" valign="center" zPosition="2" />
-	<widget font="Regular;16" halign="center" name="key_yellow" position="250,62" size="120,35" transparent="1" valign="center" zPosition="2" />
-	<widget font="Regular;16" halign="center" name="key_blue" position="370,62" size="120,35" transparent="1" valign="center" zPosition="2" />
-	<eLabel backgroundColor="#56C856" position="0,199" size="500,1" zPosition="0" />
-	<widget name="actifcam"  position="230,240" size="670,40" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
-	<widget name="actifcam2" position="230,280" size="670,40" font="Regular;32" foregroundColor="yellow" backgroundColor="header" transparent="1" zPosition="3" />
-	<eLabel backgroundColor="#56C856" position="0,225" size="500,1" zPosition="0" />
-	<widget font="Regular;16" name="ecminfo" position="10,235" size="480,300" />
-</screen>"""
+SOFTCAM_SKIN = '<screen name="BluePanel" position="center,center" size="780,550" title="OPD Blue Panel">\n\t\t\t<widget name="choose_cam" position="10,10" size="185,30" font="Regular;22" />\n\t\t\t<widget name="config" position="10,100" size="400,100" transparent="1" />\n\t\t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/icons/default_cam.png" position="70,60" size="800,60" transparent="1" alphatest="on"/>\n\t\t\t<widget name="ecminfo" position="180,215" size="400,290" font="Regular;18" />\n\t    \t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/menu/camcenter.png" zPosition="0" position="530,50" size="160,160" transparent="1" alphatest="on" />\n\t\t\t<ePixmap position="40,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/redpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="200,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/greenpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="360,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/yellowpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="550,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/bluepanel.png" transparent="1" alphatest="on"/>\n\t\t\t<widget name="key_red" position="70,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="red" transparent="1" />\n\t\t\t<widget name="key_green" position="230,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="green" transparent="1" />\n\t\t\t<widget name="key_yellow" position="390,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="yellow" transparent="1" />\n\t\t\t<widget name="key_blue" position="580,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="blue" transparent="1" />\n\t\t</screen>'
 
 
 REFRESH = 0
@@ -122,7 +83,7 @@ class BluePanel(ConfigListScreen, Screen):
 		self["ecminfo"] = Label(_("No ECM info"))
 		self["actifcam"] = Label(_("no CAM 1 active"))
 		self["actifcam2"] = Label(_("no CAM 2 active"))
-		#// create listings
+		
 		self.emuDirlist = []
 		self.emuList = []
 		self.emuBin = []
@@ -134,35 +95,35 @@ class BluePanel(ConfigListScreen, Screen):
 		self.first = 0
 		global count
 		count = 0
-		#// check emu dir for config files
+
 		print "************ go in the emuloop ************"
 		for x in self.emuDirlist:
-			#// if file contains the string "emu" (then this is a emu config file)
+			
 			if x.find("emu") > -1:
 				self.emuList.append(emuDir + x)
 				em = open(emuDir + x)
 				self.emuRgui.append(0)
-				#// read the emu config file
+				
 				for line in em.readlines():
 					line1 = line
-					#// startcam
+					
 					line = line1
 					if line.find("startcam") > -1:
 						line = line.split("=")
 						self.emuStart.append(line[1].strip())
 
-					#// stopcam
+					
 					line = line1
 					if line.find("stopcam") > -1:
 						line = line.split("=")
 						self.emuStop.append(line[1].strip())
 
-					#// Restart GUI
+				
 					line = line1
 					if line.find("restartEnigma2") > -1:
 						self.emuRgui[count] = 1
 
-					#// binname
+				
 					line = line1
 					if line.find("binname") > -1:
 						line = line.split("=")
@@ -184,7 +145,7 @@ class BluePanel(ConfigListScreen, Screen):
 		self.Timer = eTimer()
 		self.Timer.callback.append(self.layoutFinished)
 		self.Timer.start(2000, True)
-		#// get the remote buttons
+		
 		self["actions"] = ActionMap(["OkCancelActions", "DirectionActions", "ColorActions"],
 		{
 			"cancel": self.Exit,
@@ -194,7 +155,7 @@ class BluePanel(ConfigListScreen, Screen):
 			"green": self.Green,
 			"yellow": self.Yellow,
 		}, -1)
-		#// update screen
+		
 		self.onLayoutFinish.append(self.layoutFinished)
 
 	def setWindowTitle(self):
@@ -204,15 +165,15 @@ class BluePanel(ConfigListScreen, Screen):
 		self.whichCam()
 		
 		for x in self.emuDirlist:
-			#// if file contains the string "emu" (then this is a emu config file)
+			
 			if x.find("emu") > -1:
 				self.emuList.append(emuDir + x)
 				em = open(emuDir + x)
 				self.emuRgui.append(0)
-				#// read the emu config file
+				
 				for line in em.readlines():
 					line1 = line
-					#// emuname
+					
 					line = line1
 					if line.find("emuname") > -1:
 						line = line.split("=")
@@ -246,10 +207,9 @@ class BluePanel(ConfigListScreen, Screen):
 		    self['lb_channel'] = Label(_('Name: n/a'))
 		    self['lb_aspectratio'] = Label(_('Aspect Ratio: n/a'))
 		    self['lb_videosize'] = Label(_('Video Size: n/a'))
-		    
 
 	def whichCam(self):
-		#// check for active cam 1
+		
 		cam = config.softcam.actCam.value
 		self.curcam = None
 		self.curcamIndex = None
@@ -260,7 +220,7 @@ class BluePanel(ConfigListScreen, Screen):
 				self.curcam = x
 				self.curcamIndex = index
 
-		#// check for active cam 2		
+				
 		cam = config.softcam.actCam2.value
 		self.curcam2 = None
 		self.curcam2Index = None
@@ -316,7 +276,7 @@ class BluePanel(ConfigListScreen, Screen):
 			self["key_yellow"].setText(_("Refresh"))
 
 	def selectionChanged(self):
-		#self["status"].setText(self["config"].getCurrent()[0])
+		
 		pass
 
 	def changedEntry(self):
@@ -338,7 +298,7 @@ class BluePanel(ConfigListScreen, Screen):
 		self.Timer.stop()
 		if not Check_Softcam():
 			self.Exit()
-		#// check for active cam
+		
 		try:
 			self.whichCam()
 			global oldcamIndex, oldcam2Index
@@ -369,11 +329,11 @@ class BluePanel(ConfigListScreen, Screen):
 				actcam2 = _("no CAM 2 active")
 				self["actifcam2"].setText(actcam2)
 
-			if self.first == 0: # Only update first time or when refresh button was pressed
+			if self.first == 0: 
 				self.createSetup()
 				self.first = 1
 
-			#// CAM IS NOT RUNNING
+			
 			if not self.curcam and not self.curcam2:
 				self["key_green"].setText(_("Start"))
 				self.YellowAction = REFRESH
@@ -391,7 +351,7 @@ class BluePanel(ConfigListScreen, Screen):
 		else:
 			self.setYellowKey(self.curcam2)
 		
-		#// read ecm.info
+		
 		ecmi = ""
 		if os.path.exists('/tmp/ecm.info') is True:
 			ecmi = self.read_ecm('/tmp/ecm.info')
@@ -407,10 +367,10 @@ class BluePanel(ConfigListScreen, Screen):
 		else:
 			self.ecmtel = 0
 		self["ecminfo"].setText(ecmi)
-		self.Timer.start(2000, True)		#reset timer
+		self.Timer.start(2000, True)		
 
 	def read_shareinfo(self):
-		#// read share.info and put in list
+		
 		self.shareinfo =[]
 		if os.path.exists('/tmp/share.info') is True:
 			s = open('/tmp/share.info')
@@ -419,7 +379,7 @@ class BluePanel(ConfigListScreen, Screen):
 			s.close()
 
 	def read_ecm(self, ecmpath):
-		#// read ecm.info and check for share.info
+		
 		ecmi2 = ''
 		Caid = ''
 		Prov = ''
@@ -427,19 +387,19 @@ class BluePanel(ConfigListScreen, Screen):
 		for line in f.readlines():
 			line= line.replace('=', '')
 			line= line.replace(' ', '', 1)
-			#// search CaID
+			
 			if line.find('ECM on CaID') > -1:
 				k = line.find('ECM on CaID') + 14
 				Caid = line[k:k+4]
-			#// search Boxid
+			
 			if line.find('prov:') > -1:
 				tmpprov = line.split(':')
 				Prov = tmpprov[1].strip()
-				#// search peer in share.info only if share.info exists
+				
 				if Caid <> '' and Prov <> '' and len(self.shareinfo) > 0 :
 					for x in self.shareinfo:
 						cel = x.split(' ')
-						#// search Boxid and Caid
+						
 						if cel[5][0:4] == Caid and cel[9][3:7] == Prov:
 							line = 'Peer: ' + Prov + ' - ' + cel[3] + ' - ' + cel[8] + '\n'
 							break
@@ -449,10 +409,10 @@ class BluePanel(ConfigListScreen, Screen):
 
 
 	def Red(self):
-		#// Stopping the CAM when pressing the RED button
+		
 		self.Timer.stop()
 		self.Stopcam()
-		self.Timer.start(2000, True)		#reset timer
+		self.Timer.start(2000, True)		
 
 	def Yellow(self):
 		if self.YellowAction == CCCAMINFO:
@@ -466,10 +426,10 @@ class BluePanel(ConfigListScreen, Screen):
 			self.layoutFinished()
 
 	def Green(self):
-		#// Start the CAM when pressing the GREEN button
+		
 		self.Timer.stop()
 		self.Startcam()
-		self.Timer.start(2000, True)		#reset timer
+		self.Timer.start(2000, True)		
 
 	def Exit(self):
 		self.Timer.stop()
@@ -486,15 +446,15 @@ class BluePanel(ConfigListScreen, Screen):
 		self.Timer.start(2000, True)
 
 	def ok(self):
-		#// Exit Softcam when pressing the OK button
+		
 		self.Timer.stop()
 		self.Startcam()
 		if self.YellowAction == REFRESH:
 			self.Yellow()
-		self.Timer.start(2000, True)		#reset timer
+		self.Timer.start(2000, True)		
 
 	def Stopcam(self):
-		#// Stopping the CAM
+		
 		global oldcamIndex, oldcam2Index
 		if oldcamIndex >= 0:
 			oldcam = self.emuBin[oldcamIndex]
@@ -506,8 +466,8 @@ class BluePanel(ConfigListScreen, Screen):
 			oldcam2 = None
 		import time
 		self.container = eConsoleAppContainer()
-		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam.camstartMode))
-		if config.softcam.camstartMode.value == "1":
+		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam_camstartMode))
+		if config.softcam_camstartMode.value == "1":
 		        self.list.append(getConfigListEntry(_("Start attempts"), config.softcam.restartAttempts))
 		        self.list.append(getConfigListEntry(_("Time between start attempts (sec.)"), config.softcam.restartTime))
 		        self.list.append(getConfigListEntry(_("Stop check when cam is running"), config.softcam.restartRunning))
@@ -517,12 +477,12 @@ class BluePanel(ConfigListScreen, Screen):
 		        if config.usage.sort_settings.value:
 		                self["config"].list.sort()
 
-		if config.softcam.camstartMode.value == "1":
+		if config.softcam_camstartMode.value == "0":
 			if oldcam:
 				print '[SOFTCAM] Python stop cam 1: ' + oldcam
 				self.container.execute(self.emuStop[oldcamIndex])
 
-				time.sleep(1) # was 5sec
+				time.sleep(1) 
 				t = 0
 				while t < 5:
 					p = command('pidof %s |wc -w' % oldcam )
@@ -539,7 +499,7 @@ class BluePanel(ConfigListScreen, Screen):
 				print '[SOFTCAM] Python stop cam 2: ' + oldcam2
 				self.container.execute(self.emuStop[oldcam2Index])
 
-				time.sleep(1) # was 5sec
+				time.sleep(1) 
 				t = 0
 				while t < 5:
 					p = command('pidof %s |wc -w' % oldcam2 )
@@ -568,13 +528,13 @@ class BluePanel(ConfigListScreen, Screen):
 		self.Save_Settings2(actcam2)
 
 	def Startcam(self):
-		#// Starting the CAM
+		
 		try:
 			if count > 0:
 				if self.cam1sel.value == self.cam2sel.value:
 					self.session.openWithCallback(self.doNothing, MessageBox, _("No Cam started !!\n\nCam 1 must be different from Cam 2"), MessageBox.TYPE_ERROR, simple=True)
 					return
-				if config.softcam.camstartMode.value == "1":
+				if config.softcam_camstartMode.value == "0":
 					self.Stopcam()
 
 				self.camIndex = self.cam1sel.getIndex() -1
@@ -587,13 +547,13 @@ class BluePanel(ConfigListScreen, Screen):
 					if self.checkBinName(self.emuBin[self.camIndex], start):
 						self.session.openWithCallback(self.startcam2, MessageBox, actcam + _(" Not Started !!\n\nCam binname must be in the start command line\nCheck your emu config file"), MessageBox.TYPE_ERROR, simple=True)
 						return
-					if config.softcam.camstartMode.value == "1":
+					if config.softcam_camstartMode.value == "0":
 						print '[SOFTCAM] Python start cam 1: ' + actcam
 						self.session.openWithCallback(self.waitTime, MessageBox, _("Starting Cam 1: ") + actcam, MessageBox.TYPE_WARNING, timeout=5, simple=True)
 						self.container = eConsoleAppContainer()
 						self.container.execute(start)
 					else:
-						# Create INIT.D start
+						
 						self.session.openWithCallback(self.doNothing, MessageBox, _("Creating start scripts and starting the cam"), MessageBox.TYPE_WARNING, timeout=10, simple=True)
 						self.Save_Settings2(self.cam2sel.value)
 
@@ -641,13 +601,13 @@ class BluePanel(ConfigListScreen, Screen):
 			self.container.execute(start)
 
 	def Save_Settings(self, cam_name):
-		#// Save Came Name to Settings file
+		
 		config.softcam.actCam.setValue(cam_name)
 		config.softcam.save()
 		configfile.save()
 
 	def Save_Settings2(self, cam_name):
-		#// Save Came Name to Settings file
+	
 		config.softcam.actCam2.setValue(cam_name)
 		config.softcam.save()
 		configfile.save()
@@ -720,16 +680,16 @@ class BluePanel(ConfigListScreen, Screen):
 		f.close()
 
 		self.container = eConsoleAppContainer()
-		# Set execute rights
+		
 		os.chmod(Adir,0755)
-		# Create symbolic link for startup
+		
 		if not os.path.exists("/etc/rc2.d/S20softcam." + camname):
 			self.container.execute('update-rc.d -f softcam.' + camname + ' defaults')
-		# Wait a few seconds
+		
 		import time
 		time.sleep (3) 
 
-		# Start cam
+	
 		if self.isCamrunning(emubin):
 			self.container.execute('/etc/init.d/softcam.' + camname + ' restart')
 		else:
@@ -914,7 +874,7 @@ class ShowSoftcamPackages(Screen):
 			
 ##################################################################
 isBusy = None
-CFG = "/var/etc/CCcam.cfg"
+CFG = "/usr/keys/CCcam.cfg"
 
 def CamCheck():
     global campoller, POLLTIME
@@ -1050,28 +1010,28 @@ class CamCheckPoller:
 
 
         for x in self.emuDirlist:
-            #// if file contains the string "emu" (then this is a emu config file)
+            
             if x.find("emu") > -1:
                 self.emuList.append(emuDir + x)
                 em = open(emuDir + x)
-                #// read the emu config file
+                
                 for line in em.readlines():
                     line1 = line
-                    #// emuname
+                    
                     if line.find("emuname") > -1:
                         line = line.split("=")
                         self.mlist.append(line[1].strip())
-                    #// binname
+                    
                     line = line1
                     if line.find("binname") > -1:
                         line = line.split("=")
                         self.emuBin.append(line[1].strip())
-                    #// startcam
+                    
                     line = line1
                     if line.find("startcam") > -1:
                         line = line.split("=")
                         self.emuStart.append(line[1].strip())
-                    #// stopcam
+                    
                     line = line1
                     if line.find("stopcam") > -1:
                         line = line.split("=")
@@ -1090,7 +1050,7 @@ class CamCheckPoller:
         tel = 0
 
         for x in self.mlist:
-            #print '[CAMSTARTER] searching active cam: ' + x
+            
             if x == cam_name:
                 camfound = 1
                 indexcam = tel
@@ -1123,9 +1083,9 @@ class CamCheckPoller:
                 tel +=1
         try:
 
-            #// CAM IS NOT RUNNING SO START
+            
             if camrunning == 0 or camfrozen == 1 or (camfound2 == 1 and camrunning2 == 0 or camfrozen2 == 1):
-                #// AND CAM IN LIST
+                
                 if camfound == 1:
                     stop = self.emuStop[indexcam]
                     print "[CAMSTARTER] CAM 1 not running, stop " + stop
@@ -1138,7 +1098,7 @@ class CamCheckPoller:
                     self.container = eConsoleAppContainer()
                     self.container.execute(start)
                     if camrunning2 == 0 or camfrozen2 == 1:
-                        #// AND CAM IN LIST
+                        
                         if camfound2 == 1:
                             stop = self.emuStop[indexcam2]
                             print "[CAMSTARTER] CAM 2 not running, stop " + stop
@@ -1165,6 +1125,7 @@ class CamCheckPoller:
 campoller = None
 
 ##################################################################
+
 config.softcam = ConfigSubsection()
 config.OPENDROID_Bluepanel = ConfigSubsection()
 config.softcam.actCam = ConfigText(visible_width = 200)
@@ -1172,6 +1133,7 @@ config.softcam.actCam2 = ConfigText(visible_width = 200)
 config.softcam.restartRunning = ConfigYesNo(default=True)
 config.softcam.waittime = ConfigSelection([('0',_("dont wait")),('1',_("1 second")), ('5',_("5 seconds")),('10',_("10 seconds")),('15',_("15 seconds")),('20',_("20 seconds")),('30',_("30 seconds"))], default='15')
 config.softcam.restartAttempts =  ConfigSelection(
+
                     [
                     ("0", _("0 (disabled)")),
                     ("1", _("1")),
@@ -1189,7 +1151,7 @@ config.softcam.restartTime = ConfigSelection(
                     ("120", _("120")),
                     ("240", _("240")),
                     ], "10")
-config.softcam.camstartMode =  ConfigSelection(
+config.softcam_camstartMode =  ConfigSelection(
                     [
                     ("0", _("Python Camstarter (default)")),
                     ("1", _("Init.d")),
@@ -1209,22 +1171,28 @@ def command(comandline, strip=1):
 				text = text + line
 				if text[-1:] != '\n': text = text + "\n"
 		file.close()
-	# if one or last line then remove linefeed
+	
 	if text[-1:] == '\n': text = text[:-1]
 	comandline = text
 	os.system("rm /tmp/command.txt")
 	return comandline
 
-class CamStart:
-
+class CamStart(Screen):
+	skin = """
+	<screen name="CamStart" position="center,center" size="484, 150" title="Starting Softcam">
+		<widget name="connect" position="217, 0" size="64,64" zPosition="2" pixmaps="/usr/share/enigma2/oDreamy-FHD/opendroid/sc1.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc2.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc3.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc4.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc5.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc6.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc7.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc8.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc9.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc10.png,/usr/share/enigma2/oDreamy-FHD/opendroid/sc11.png"  transparent="1" alphatest="blend"/>
+		<widget name="lab1" position="10, 80" halign="center" size="460, 60" zPosition="1" font="Regular;20" valign="top" transparent="1"/>
+	</screen>"""
 	def __init__(self, session):
 		self.count = 0
 		self.timerTime = 2
+		Screen.__init__(self, session)
 		self.session = session
+		self['connect'] = MultiPixmap()
 		self.timer = eTimer()
 		self.timer.timeout.get().append(self.timerEvent)
-		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam.camstartMode))
-		if config.softcam.camstartMode.value == "1":
+		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam_camstartMode))
+		if config.softcam_camstartMode.value == "0":
 		        self.list.append(getConfigListEntry(_("Start attempts"), config.softcam.restartAttempts))
 		        self.list.append(getConfigListEntry(_("Time between start attempts (sec.)"), config.softcam.restartTime))
 		        self.list.append(getConfigListEntry(_("Stop check when cam is running"), config.softcam.restartRunning))
@@ -1233,7 +1201,7 @@ class CamStart:
 
 	def startTimer(self):
 		if self.timer.isActive():
-			# Disable Timer?
+			
 			pass
 		else:
 			self.timer.startLongTimer(self.timerTime)
@@ -1263,25 +1231,25 @@ class CamStart:
 		else:
 			self.count += 1
 			print '[CAMSTARTER] Start/Check: ' + str(self.count)
-			#// check emu dir for config files
+			
 			for x in self.emuDirlist:
-				#// if file contains the string "emu" (then this is a emu config file)
+				
 				if x.find("emu") > -1:
 					self.emuList.append(emuDir + x)
 					em = open(emuDir + x)
-					#// read the emu config file
+					
 					for line in em.readlines():
 						line1 = line
-						#// emuname
+						
 						if line.find("emuname") > -1:
 							line = line.split("=")
 							self.mlist.append(line[1].strip())
-						#// binname
+						
 						line = line1
 						if line.find("binname") > -1:
 							line = line.split("=")
 							self.emuBin.append(line[1].strip())
-						#// startcam
+						
 						line = line1
 						if line.find("startcam") > -1:
 							line = line.split("=")
@@ -1297,7 +1265,7 @@ class CamStart:
 			indexcam2 = -1
 			tel = 0
 			for x in self.mlist:
-				#print '[CAMSTARTER] searching active cam: ' + x
+				
 				if x == cam_name:
 					camfound = 1
 					indexcam = tel
@@ -1325,17 +1293,18 @@ class CamStart:
 				else:
 					tel +=1
 			try:
-				#// CAM IS NOT RUNNING SO START
+				
 				if camrunning == 0:
-					#// AND CAM IN LIST
+					
 					if camfound == 1:
 						start = self.emuStart[indexcam]
 						print "[CAMSTARTER] no CAM active, starting " + start
 						os.system("echo Start attempts cam 1: " + str(self.count) + " cmd=" + start + " > " + "/tmp/camstarter.txt")
 						self.container = eConsoleAppContainer()
 						self.container.execute(start)
+						self['connect'].setPixmapNum(0)
 						if camrunning2 == 0:
-							#// AND CAM IN LIST
+							
 							if camfound2 == 1:
 								import time
 								time.sleep (int(config.softcam.waittime.value))
@@ -1344,20 +1313,23 @@ class CamStart:
 								os.system("echo Start attempts cam 2: " + str(self.count) + " cmd=" + start + " >> " + "/tmp/camstarter.txt")
 								self.container = eConsoleAppContainer()
 								self.container.execute(start)
+								self['connect'].setPixmapNum(0)
 				else:
 					if camfound == 0:
 						print "[CAMSTARTER] No Cam found to start"
 				
-				# If Cam is running don't check anymore
+				
 				if config.softcam.restartRunning.value and camrunning == 1:
 					if camfound2 == 1:
 						if camrunning2 == 1:
 							print "[CAMSTARTER] Cam is running, exit camstarter"
 							self.count = 0
+							self['connect'].setPixmapNum(self.camrunningpix)
 							return
 					else:
 						print "[CAMSTARTER] Cam is running, exit camstarter"
 						self.count = 0
+						self['connect'].setPixmapNum(self.camrunningpix)
 						return
 
 			except:

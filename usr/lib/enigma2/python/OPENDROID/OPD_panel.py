@@ -10,6 +10,8 @@ from Screens.MessageBox import MessageBox
 from Plugins.SystemPlugins.SoftwareManager.Flash_online import FlashOnline
 from Components.ActionMap import ActionMap, NumberActionMap, HelpableActionMap
 from Screens.Screen import Screen
+from Screens.TaskView import JobView
+from Components.Task import Task, Job, job_manager, Condition
 from GlobalActions import globalActionMap
 from Screens.ChoiceBox import ChoiceBox
 from Tools.BoundFunction import boundFunction
@@ -30,11 +32,13 @@ from Components.SystemInfo import SystemInfo
 from Screens.VirtualKeyBoard import VirtualKeyBoard
 from Components.MultiContent import MultiContentEntryText, MultiContentEntryPixmapAlphaTest
 from OPENDROID.OscamSmartcard import *
-
+from enigma import eConsoleAppContainer
+from Tools.Directories import fileExists
+from Tools.Downloader import downloadWithProgress
 from boxbranding import getBoxType, getMachineName, getMachineBrand, getBrandOEM
 import os
 import sys
-import re
+import re, string
 font = 'Regular;16'
 import ServiceReference
 import time
@@ -932,3 +936,66 @@ class Info(Screen):
             return o
 
         return
+####################################################################################################################################
+class FileDownloadJob(Job):
+
+    def __init__(self, url, filename, file):
+        Job.__init__(self, _('Downloading %s' % file))
+        FileDownloadTask(self, url, filename)
+
+
+class DownloaderPostcondition(Condition):
+
+    def check(self, task):
+        return task.returncode == 0
+
+    def getErrorMessage(self, task):
+        return self.error_message
+
+
+class FileDownloadTask(Task):
+
+    def __init__(self, job, url, path):
+        Task.__init__(self, job, _('Downloading'))
+        self.postconditions.append(DownloaderPostcondition())
+        self.job = job
+        self.url = url
+        self.path = path
+        self.error_message = ''
+        self.last_recvbytes = 0
+        self.error_message = None
+        self.download = None
+        self.aborted = False
+        return
+
+    def run(self, callback):
+        self.callback = callback
+        self.download = downloadWithProgress(self.url, self.path)
+        self.download.addProgress(self.download_progress)
+        self.download.start().addCallback(self.download_finished).addErrback(self.download_failed)
+        print '[FileDownloadTask] downloading', self.url, 'to', self.path
+
+    def abort(self):
+        print '[FileDownloadTask] aborting', self.url
+        if self.download:
+            self.download.stop()
+        self.aborted = True
+
+    def download_progress(self, recvbytes, totalbytes):
+        if recvbytes - self.last_recvbytes > 10000:
+            self.progress = int(100 * (float(recvbytes) / float(totalbytes)))
+            self.name = _('Downloading') + ' ' + '%d of %d kBytes' % (recvbytes / 1024, totalbytes / 1024)
+            self.last_recvbytes = recvbytes
+
+    def download_failed(self, failure_instance = None, error_message = ''):
+        self.error_message = error_message
+        if error_message == '' and failure_instance is not None:
+            self.error_message = failure_instance.getErrorMessage()
+        Task.processFinished(self, 1)
+        return
+
+    def download_finished(self, string = ''):
+        if self.aborted:
+            self.finish(aborted=True)
+        else:
+            Task.processFinished(self, 0)        
