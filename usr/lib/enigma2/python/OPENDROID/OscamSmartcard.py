@@ -123,21 +123,23 @@ config.OPENDROID_OscamSmartcard.externalReader1 = ConfigSelection(default="none"
 class OscamSmartcard(ConfigListScreen, Screen):
 	skin ="""
 <screen name="OscamSmartcard" position="center,center" size="1280,720" flags="wfNoBorder" backgroundColor="#90000000">
-	<eLabel name="new eLabel" position="40,40" zPosition="-2" size="1200,640" backgroundColor="black" transparent="0" />
-	<eLabel font="Regular; 20" foregroundColor="white" backgroundColor="#20000000" halign="left" position="77,645" size="250,33" text="Cancel" transparent="1" />
-	<eLabel font="Regular; 20" foregroundColor="white" backgroundColor="#20000000" halign="left" position="375,645" size="250,33" text="Start" transparent="1" />
-	<eLabel font="Regular; 20" foregroundColor="white" backgroundColor="#20000000" halign="left" position="682,645" size="250,33" text="Reboot Box" transparent="1" />
-	<eLabel font="Regular; 20" foregroundColor="white" backgroundColor="#20000000" halign="left" position="989,645" size="250,33" text="make clean" transparent="1" />
-	<widget name="config" position="61,114" size="590,380" scrollbarMode="showOnDemand" transparent="1" backgroundColor="black" />
-	<eLabel position="62,48" size="348,50" text="OscamSmartcard" font="Regular; 40" valign="center" transparent="1" backgroundColor="#20000000" />
-	<eLabel position="417,48" size="451,50" text="Setup" foregroundColor="white" font="Regular; 40" valign="center" backgroundColor="#20000000" transparent="1" halign="left" />
-	<eLabel position="665,640" size="5,40" backgroundColor="#e5dd00" />
-	<eLabel position="360,640" size="5,40" backgroundColor="#61e500" />
-	<eLabel position="60,640" size="5,40" backgroundColor="#e61700" />
-	<eLabel position="965,640" size="5,40" backgroundColor="#0000ff" />
-	<widget name="oscamsmartcardhelperimage" position="669,112" size="550,500" zPosition="1" backgroundColor="background" />
-	<widget name="HELPTEXT" position="61,500" size="590,110" zPosition="1" font="Regular; 20" halign="left" valign="top" backgroundColor="black" transparent="1" />
-    <eLabel text="OscamSmartcard 2.1 by arn354 and Undertaker" position="874,48" size="360,25" zPosition="1" font="Regular; 15" halign="right" valign="top" backgroundColor="#20000000" transparent="1" />
+  <eLabel name="bg" position="40,40" zPosition="-2" size="1200,640" backgroundColor="black" transparent="0" />
+  <widget name="config" position="55,299" size="595,210" scrollbarMode="showOnDemand" transparent="1" backgroundColor="black" zPosition="1" />
+  <widget name="Title" position="60,48" size="590,50" zPosition="1" font="Regular; 40" halign="left" backgroundColor="black" transparent="1" />
+  <eLabel font="Regular; 20" zPosition="1" foregroundColor="black" halign="center" position="375,648" size="200,33" text="Cancel" transparent="1" backgroundColor="red" />
+  <eLabel font="Regular; 20" zPosition="1" foregroundColor="white" halign="center" position="60,648" size="200,33" text="Start" transparent="1" backgroundColor="green" />
+  <eLabel font="Regular; 20" zPosition="1" foregroundColor="black" halign="center" position="670,648" size="200,33" text="Info" transparent="1" backgroundColor="yellow" />
+  <eLabel font="Regular; 20" zPosition="1" foregroundColor="white" halign="center" position="965,648" size="200,33" text="clean up" transparent="1" backgroundColor="blue" />
+  <eLabel position="670,645" zPosition="0" size="200,33" backgroundColor="yellow" />
+  <eLabel position="60,645" zPosition="0" size="200,33" backgroundColor="green" />
+  <eLabel position="375,645" zPosition="0" size="200,33" backgroundColor="red" />
+  <eLabel position="965,645" zPosition="0" size="200,33" backgroundColor="blue" />
+  <widget name="oscamsmartcardhelperimage" position="671,209" size="330,300" zPosition="3" backgroundColor="black" transparent="1" />
+  <widget name="HELPTEXT" position="670,518" size="544,110" zPosition="1" font="Regular; 20" halign="left" backgroundColor="black" transparent="1" />
+  <widget name="HEADER" position="60,114" size="590,180" zPosition="1" font="Regular; 20" halign="left" backgroundColor="black" transparent="1" />
+  <widget name="INFOTXT" position="60,518" size="590,110" zPosition="1" font="Regular; 20" halign="left" backgroundColor="black" transparent="1" />
+  <eLabel text="OscamSmartcard 2.2 by arn354 and Undertaker" position="874,45" size="360,20" zPosition="1" font="Regular; 15" halign="right" backgroundColor="black" transparent="1" />
+<ePixmap pixmap="/usr/lib/enigma2/python/OPENDROID/OscamSmartcard/images/oscamsmartcard.png" position="958,75" size="275,250" alphatest="blend" zPosition="2" />
 </screen>"""
 	def __init__(self, session, args = None, picPath = None):
 		self.config_lines = []
@@ -558,7 +560,7 @@ class OscamSmartcard(ConfigListScreen, Screen):
 			system('tar -xzf /tmp/oscam.tar.gz -C /tmp' + null)
 			system('rm -f /usr/bin/oscam_oscamsmartcard' + null)
 			system('mv /tmp/oscam /usr/bin/oscam_oscamsmartcard' + null)
-			system('chmod 777 /usr/bin/oscam_oscamsmartcard')
+			system('chmod 755 /usr/bin/oscam_oscamsmartcard')
 			system('rm -f /tmp/oscam.tar.gz')
 
 	def downloadurl(self):
@@ -598,17 +600,21 @@ class OscamSmartcard(ConfigListScreen, Screen):
 		return upgradeinfo
 
 	def currentversion(self):
-		if os.path.exists('/usr/bin/oscam_oscamsmartcard'):
-			system('chmod 777 /usr/bin/oscam_oscamsmartcard')
-			f = popen('/usr/bin/oscam_oscamsmartcard -V')
-			for line in f:
-				if 'Version:' in line:
-					line=line.strip().split()
-					currentversion= line[1]
-			f.close()
-		else:
-			currentversion = _("no installed oscamsmartcard found")
-		return currentversion
+		try:
+			if os.path.exists('/usr/bin/oscam_oscamsmartcard'):
+				system('chmod 755 /usr/bin/oscam_oscamsmartcard')
+				f = popen('/usr/bin/oscam_oscamsmartcard -V')
+				for line in f:
+					if 'Version:' in line:
+						line=line.strip().split()
+						currentversion= line[1]
+				f.close()
+			else:
+				currentversion = _("no installed oscamsmartcard found")
+			return currentversion
+		except:
+			currentversion = _("Error")
+			return currentversion
 
 	def checkallcams(self):
 		ignore =[
@@ -675,20 +681,20 @@ class OscamSmartcard(ConfigListScreen, Screen):
 	def savecamstart(self):
 		try:
 			if getImageDistro() =='openmips':
-				system('/etc/init.d/softcam stop')
-				system('/etc/init.d/cardserver stop')
-				system('rm -f /etc/init.d/cardserver*')
-				system('rm -f /etc/init.d/softcam*')
-				system('touch /etc/init.d/softcam.None')
-				system('touch /etc/init.d/cardserver.None')
+				system('/etc/init.d/softcam stop && /etc/init.d/cardserver stop')
+				self.initd()
+
+				system('rm -f /etc/init.d/cardserver.OscamSmartcard')
+				system('rm -f /etc/init.d/softcam.OscamSmartcard')
+
 				system('cp -f /tmp/data/softcam.OscamSmartcard /etc/init.d/softcam.OscamSmartcard')
 				system('cp -f /tmp/data/cardserver.OscamSmartcard /etc/init.d/cardserver.OscamSmartcard')
+				system('chmod 755 /etc/init.d/softcam.OscamSmartcard')
+				system('chmod 755 /etc/init.d/cardserver.OscamSmartcard')
+
+				system('rm -f /etc/init.d/softcam && rm -f /etc/init.d/cardserver')
 				system('ln -sf /etc/init.d/softcam.OscamSmartcard /etc/init.d/softcam')
 				system('ln -sf /etc/init.d/cardserver.None /etc/init.d/cardserver')
-				system('chmod 777 /etc/init.d/softcam.*')
-				system('chmod 777 /etc/init.d/cardserver.*')
-				system('update-rc.d softcam  defaults ' + null)
-				system('update-rc.d cardserver defaults ' + null)
 			if getImageDistro() =='opendroid':
 				system('killall -9 oscam_oscamsmartcard' + null)
 				system('rm -f /etc/oscamsmartcard.emu')
@@ -745,10 +751,9 @@ class OscamSmartcard(ConfigListScreen, Screen):
 				system('rm -f /etc/oscamsmartcard.emu' + null)
 			if getImageDistro() =='openmips':
 				system('rm -f /etc/tuxbox/config/oscam.*' + null)
-				system('rm /etc/init.d/softcam /etc/init.d/softcam.None /etc/init.d/softcam.OscamSmartcard' + null)
-				system('rm /etc/init.d/cardserver /etc/init.d/cardserver.None /etc/init.d/cardserver.OscamSmartcard' + null)
-				#system('update-rc.d -f softcam  remove' + null)
-				#system('update-rc.d -f cardserver remove' + null)
+				system('rm /etc/init.d/softcam.OscamSmartcard' + null)
+				system('rm /etc/init.d/cardserver.OscamSmartcard' + null)
+				self.initd()
 			system('rm -rf /tmp/data' + null)
 			system('rm -f /tmp/upgrade.log' + null)
 			popen('rm -rf /tmp/.oscam' + null)
@@ -841,6 +846,28 @@ class OscamSmartcard(ConfigListScreen, Screen):
 			p.close()
 		return cccsrv,xc,cccuser,yc,ccconfig,zc,cccport
 
+	def initd(self):
+		if not fileExists('/etc/init.d/softcam.None'):
+			fd = file('/etc/init.d/softcam.None', 'w')
+			fd.write('#!/bin/sh\necho "Softcam is deactivated."\n')
+			fd.close()
+			system('chmod 755 /etc/init.d/softcam.None')
+		if not fileExists('/etc/init.d/cardserver.None'):
+			fd = file('/etc/init.d/cardserver.None', 'w')
+			fd.write('#!/bin/sh\necho "Cardserver is deactivated."\n')
+			fd.close()
+			system('chmod 755 /etc/init.d/cardserver.None')
+		system('rm -f /etc/init.d/softcam')
+		system('ln -s /etc/init.d/softcam.None /etc/init.d/softcam')
+		system('chmod 755 /etc/init.d/softcam')
+		system('rm -f /etc/init.d/cardserver')
+		system('ln -s /etc/init.d/cardserver.None /etc/init.d/cardserver')
+		system('chmod 755 /etc/init.d/cardserver')
+		if fileExists ('/etc/rc0.d/K20softcam'): 
+			os.system('update-rc.d -f softcam remove && update-rc.d -f cardserver remove')
+		if not fileExists('/etc/rc0.d/K09softcam'):
+			os.system('update-rc.d softcam stop 09 0 1 6 . start  60 2 3 4 5 .')
+			os.system('update-rc.d cardserver stop 09 0 1 6 . start  60 2 3 4 5 .')
 	def getIP(self):
 		return str(popen('ip route get 8.8.8.8 |cut -d " " -f8').read().strip())
 
@@ -849,10 +876,10 @@ class OscamSmartcard(ConfigListScreen, Screen):
 		srv = 'aHR0cDovL3d3dy5naWdhYmx1ZS1zdXBwb3J0Lm9yZy9kb3dubG9hZC9vc2NhbXNtYXJ0Y2FyZC8='
 		return info,srv
 
-
 	def showNews(self):
 		lastinfo =  ""
 		x = " : "
+		lastinfo += "10-12-2016" + x + _("update init.d start/stop") + "\n"
 		lastinfo += "17-09-2016" + x + _("update oscamsmartcard code") + "\n"
 		lastinfo += "11-09-2016" + x + _("update Redlight HD Card") + "\n"
 		lastinfo += "08-09-2016" + x + _("added ORF ICE p410 Card") + "\n"
