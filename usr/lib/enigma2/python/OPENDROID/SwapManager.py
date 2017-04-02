@@ -13,15 +13,15 @@ from enigma import eTimer
 from glob import glob
 import stat
 
-config.plugins.infopanel = ConfigSubsection()
-config.plugins.infopanel.swapautostart = ConfigYesNo(default = False)
+config.OPD_panel = ConfigSubsection()
+config.OPD_panel.swapautostart = ConfigYesNo(default = False)
 
 startswap = None
 
 def SwapAutostart(reason, session=None, **kwargs):
 	global startswap
 	if reason == 0:
-		if config.plugins.infopanel.swapautostart.value:
+		if config.OPD_panel.swapautostart.value:
 			print "[SwapManager] autostart"
 			startswap = StartSwap()
 			startswap.start()
@@ -129,8 +129,8 @@ class Swap(Screen):
 		self.activityTimer.stop()
 		if path.exists('/etc/rcS.d/S98SwapManager'):
 			remove('/etc/rcS.d/S98SwapManager')
-			config.plugins.infopanel.swapautostart.value = True
-			config.plugins.infopanel.swapautostart.save()
+			config.OPD_panel.swapautostart.value = True
+			config.OPD_panel.swapautostart.save()
 		if path.exists('/tmp/swapdevices.tmp'):
 			remove('/tmp/swapdevices.tmp')
 		self.Console.ePopen("sfdisk -l /dev/sd? 2>/dev/null | grep swap", self.updateSwap2)
@@ -173,12 +173,12 @@ class Swap(Screen):
 						self.swapsize = info[stat.ST_SIZE]
 						continue
 
-		if config.plugins.infopanel.swapautostart.value and self.swap_place:
+		if config.OPD_panel.swapautostart.value and self.swap_place:
 			self['autostart_off'].hide()
 			self['autostart_on'].show()
 		else:
-			config.plugins.infopanel.swapautostart.value = False
-			config.plugins.infopanel.swapautostart.save()
+			config.OPD_panel.swapautostart.value = False
+			config.OPD_panel.swapautostart.save()
 			configfile.save()
 			self['autostart_on'].hide()
 			self['autostart_off'].show()
@@ -255,9 +255,9 @@ class Swap(Screen):
 	def createDel2(self, result, retval, extra_args = None):
 		if retval == 0:
 			remove(self.swap_place)
-			if config.plugins.infopanel.swapautostart.value:
-				config.plugins.infopanel.swapautostart.value = False
-				config.plugins.infopanel.swapautostart.save()
+			if config.OPD_panel.swapautostart.value:
+				config.OPD_panel.swapautostart.value = False
+				config.OPD_panel.swapautostart.save()
 				configfile.save()
 			self.updateSwap()
 
@@ -295,12 +295,12 @@ class Swap(Screen):
 		
 	def autoSsWap(self):
 		if self.swap_place:
-			if config.plugins.infopanel.swapautostart.value:
-				config.plugins.infopanel.swapautostart.value = False
-				config.plugins.infopanel.swapautostart.save()
+			if config.OPD_panel.swapautostart.value:
+				config.OPD_panel.swapautostart.value = False
+				config.OPD_panel.swapautostart.save()
 			else:
-				config.plugins.infopanel.swapautostart.value = True
-				config.plugins.infopanel.swapautostart.save()
+				config.OPD_panel.swapautostart.value = True
+				config.OPD_panel.swapautostart.save()
 			configfile.save()
 		else:
 			mybox = self.session.open(MessageBox, _("You have to create a Swap File before to activate the autostart."), MessageBox.TYPE_INFO)

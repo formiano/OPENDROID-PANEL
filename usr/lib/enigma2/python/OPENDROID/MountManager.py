@@ -197,10 +197,10 @@ class HddMount(Screen):
 		devicetype = path.realpath('/sys/block/' + device2 + '/device')
 		d2 = device
 		name = 'USB: '
-		mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/OPDpanel/icons/dev_usbstick.png'
+		mypixmap = '/usr/lib/enigma2/python/OPENDROID/icons/dev_usbstick.png'
 		if device2.startswith('mmcblk'):
 			model = file('/sys/block/' + device2 + '/device/name').read()
-			mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/Infopanel/icons/dev_mmc.png'
+			mypixmap = '/usr/lib/enigma2/python/OPENDROID/icons/dev_mmc.png'
 			name = 'MMC: '
 		else:
 			model = file('/sys/block/' + device2 + '/device/model').read()
@@ -208,7 +208,7 @@ class HddMount(Screen):
 		des = ''
 		if devicetype.find('/devices/pci') != -1 or devicetype.find('ahci') != -1:
 			name = _("HARD DISK: ")
-			mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/OPDpanel/icons/dev_hdd.png'
+			mypixmap = '/usr/lib/enigma2/python/OPENDROID/icons/dev_hdd.png'
 		name = name + model
 		self.Console = Console()
 		self.Console.ePopen("sfdisk -l | grep swap | awk '{print $(NF-9)}' >/tmp/devices.tmp")
@@ -506,10 +506,10 @@ class DevicePanelConf(Screen, ConfigListScreen):
 		devicetype = path.realpath('/sys/block/' + device2 + '/device')
 		d2 = device
 		name = 'USB: '
-		mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/OPDpanel/icons/dev_usbstick.png'
+		mypixmap = '/usr/lib/enigma2/python/OPENDROID/icons/dev_usbstick.png'
 		if device2.startswith('mmcblk'):
 			model = file('/sys/block/' + device2 + '/device/name').read()
-			mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/Infopanel/icons/dev_mmc.png'
+			mypixmap = '/usr/lib/enigma2/python/OPENDROID/icons/dev_mmc.png'
 			name = 'MMC: '
 		else:
 			model = file('/sys/block/' + device2 + '/device/model').read()
@@ -518,7 +518,7 @@ class DevicePanelConf(Screen, ConfigListScreen):
 		print "test:" 
 		if devicetype.find('/devices/pci') != -1 or devicetype.find('ahci') != -1:
 			name = _("HARD DISK: ")
-			mypixmap = '/usr/lib/enigma2/python/Plugins/Extensions/OPDpanel/icons/dev_hdd.png'
+			mypixmap = '/usr/lib/enigma2/python/OPENDROID/icons/dev_hdd.png'
 		name = name + model
 		f = open('/proc/mounts', 'r')
 		for line in f.readlines():

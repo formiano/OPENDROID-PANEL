@@ -10,14 +10,14 @@ from Components.Console import Console
 from os import system, listdir, rename, symlink, unlink, path, mkdir
 from time import sleep
 
-config.OPDpanel = ConfigSubsection()
-config.OPDpanel.cronmanager_commandtype = NoSave(ConfigSelection(choices = [ ('custom',_("Custom")),('predefined',_("Predefined")) ]))
-config.OPDpanel.cronmanager_cmdtime = NoSave(ConfigClock(default=0))
-config.OPDpanel.cronmanager_cmdtime.value, mytmpt = ([0, 0], [0, 0])
-config.OPDpanel.cronmanager_user_command = NoSave(ConfigText(fixed_size=False))
-config.OPDpanel.cronmanager_runwhen = NoSave(ConfigSelection(default='Daily', choices = [('Hourly', _("Hourly")),('Daily', _("Daily")),('Weekly', _("Weekly")),('Monthly', _("Monthly"))]))
-config.OPDpanel.cronmanager_dayofweek = NoSave(ConfigSelection(default='Monday', choices = [('Monday', _("Monday")),('Tuesday', _("Tuesday")),('Wednesday', _("Wednesday")),('Thursday', _("Thursday")),('Friday', _("Friday")),('Saturday', _("Saturday")),('Sunday', _("Sunday"))]))
-config.OPDpanel.cronmanager_dayofmonth = NoSave(ConfigInteger(default=1, limits=(1, 31)))
+config.OPD_panel = ConfigSubsection()
+config.OPD_panel.cronmanager_commandtype = NoSave(ConfigSelection(choices = [ ('custom',_("Custom")),('predefined',_("Predefined")) ]))
+config.OPD_panel.cronmanager_cmdtime = NoSave(ConfigClock(default=0))
+config.OPD_panel.cronmanager_cmdtime.value, mytmpt = ([0, 0], [0, 0])
+config.OPD_panel.cronmanager_user_command = NoSave(ConfigText(fixed_size=False))
+config.OPD_panel.cronmanager_runwhen = NoSave(ConfigSelection(default='Daily', choices = [('Hourly', _("Hourly")),('Daily', _("Daily")),('Weekly', _("Weekly")),('Monthly', _("Monthly"))]))
+config.OPD_panel.cronmanager_dayofweek = NoSave(ConfigSelection(default='Monday', choices = [('Monday', _("Monday")),('Tuesday', _("Tuesday")),('Wednesday', _("Wednesday")),('Thursday', _("Thursday")),('Friday', _("Friday")),('Saturday', _("Saturday")),('Sunday', _("Sunday"))]))
+config.OPD_panel.cronmanager_dayofmonth = NoSave(ConfigInteger(default=1, limits=(1, 31)))
 
 class CronManager(Screen):
 	skin = """
@@ -297,21 +297,21 @@ class SetupCronConf(Screen, ConfigListScreen):
 				if pkg.find('.sh') >= 0:
 					predefinedlist.append((description, pkg))
 			predefinedlist.sort()
-		config.OPDpanel.cronmanager_predefined_command = NoSave(ConfigSelection(choices = predefinedlist))
+		config.OPD_panel.cronmanager_predefined_command = NoSave(ConfigSelection(choices = predefinedlist))
 		self.editListEntry = None
 		self.list = []
-		self.list.append(getConfigListEntry(_("Run how often ?"), config.OPDpanel.cronmanager_runwhen))
-		if config.OPDpanel.cronmanager_runwhen.value != 'Hourly':
-			self.list.append(getConfigListEntry(_("Time to execute command or script"), config.OPDpanel.cronmanager_cmdtime))
-		if config.OPDpanel.cronmanager_runwhen.value == 'Weekly':
-			self.list.append(getConfigListEntry(_("What Day of week ?"), config.OPDpanel.cronmanager_dayofweek))
-		if config.OPDpanel.cronmanager_runwhen.value == 'Monthly':
-			self.list.append(getConfigListEntry(_("What Day of month ?"), config.OPDpanel.cronmanager_dayofmonth))
-		self.list.append(getConfigListEntry(_("Command type"), config.OPDpanel.cronmanager_commandtype))
-		if config.OPDpanel.cronmanager_commandtype.value == 'custom':
-			self.list.append(getConfigListEntry(_("Command To Run"), config.OPDpanel.cronmanager_user_command))
+		self.list.append(getConfigListEntry(_("Run how often ?"), config.OPD_panel.cronmanager_runwhen))
+		if config.OPD_panel.cronmanager_runwhen.value != 'Hourly':
+			self.list.append(getConfigListEntry(_("Time to execute command or script"), config.OPD_panel.cronmanager_cmdtime))
+		if config.OPD_panel.cronmanager_runwhen.value == 'Weekly':
+			self.list.append(getConfigListEntry(_("What Day of week ?"), config.OPD_panel.cronmanager_dayofweek))
+		if config.OPD_panel.cronmanager_runwhen.value == 'Monthly':
+			self.list.append(getConfigListEntry(_("What Day of month ?"), config.OPD_panel.cronmanager_dayofmonth))
+		self.list.append(getConfigListEntry(_("Command type"), config.OPD_panel.cronmanager_commandtype))
+		if config.OPD_panel.cronmanager_commandtype.value == 'custom':
+			self.list.append(getConfigListEntry(_("Command To Run"), config.OPD_panel.cronmanager_user_command))
 		else:
-			self.list.append(getConfigListEntry(_("Command To Run"), config.OPDpanel.cronmanager_predefined_command))
+			self.list.append(getConfigListEntry(_("Command To Run"), config.OPD_panel.cronmanager_predefined_command))
 		self["config"].list = self.list
 		self["config"].setList(self.list)
 
@@ -340,7 +340,7 @@ class SetupCronConf(Screen, ConfigListScreen):
 
 	def checkentry(self):
 		msg = ''
-		if (config.OPDpanel.cronmanager_commandtype.value == 'predefined' and config.OPDpanel.cronmanager_predefined_command.value == '') or config.OPDpanel.cronmanager_commandtype.value == 'custom' and config.OPDpanel.cronmanager_user_command.value == '':
+		if (config.OPD_panel.cronmanager_commandtype.value == 'predefined' and config.OPD_panel.cronmanager_predefined_command.value == '') or config.OPD_panel.cronmanager_commandtype.value == 'custom' and config.OPD_panel.cronmanager_user_command.value == '':
 			msg = 'You must set at least one Command'
 		if msg:
 			self.session.open(MessageBox, msg, MessageBox.TYPE_ERROR)
@@ -348,45 +348,45 @@ class SetupCronConf(Screen, ConfigListScreen):
 			self.saveMycron()
 
 	def saveMycron(self):
-		hour = '%02d' % config.OPDpanel.cronmanager_cmdtime.value[0]
-		minutes = '%02d' % config.OPDpanel.cronmanager_cmdtime.value[1]
-		if config.OPDpanel.cronmanager_commandtype.value == 'predefined' and config.OPDpanel.cronmanager_predefined_command.value != '':
-			command = config.OPDpanel.cronmanager_predefined_command.value
+		hour = '%02d' % config.OPD_panel.cronmanager_cmdtime.value[0]
+		minutes = '%02d' % config.OPD_panel.cronmanager_cmdtime.value[1]
+		if config.OPD_panel.cronmanager_commandtype.value == 'predefined' and config.OPD_panel.cronmanager_predefined_command.value != '':
+			command = config.OPD_panel.cronmanager_predefined_command.value
 		else:
-			command = config.OPDpanel.cronmanager_user_command.value
+			command = config.OPD_panel.cronmanager_user_command.value
 
-		if config.OPDpanel.cronmanager_runwhen.value == 'Hourly':
+		if config.OPD_panel.cronmanager_runwhen.value == 'Hourly':
 			newcron = minutes + ' ' + ' * * * * ' + command.strip() + '\n'
-		elif config.OPDpanel.cronmanager_runwhen.value == 'Daily':
+		elif config.OPD_panel.cronmanager_runwhen.value == 'Daily':
 			newcron = minutes + ' ' + hour + ' * * * ' + command.strip() + '\n'
-		elif config.infopanel.cronmanager_runwhen.value == 'Weekly':
-			if config.OPDpanel.cronmanager_dayofweek.value == 'Sunday':
+		elif config.OPD_panel.cronmanager_runwhen.value == 'Weekly':
+			if config.OPD_panel.cronmanager_dayofweek.value == 'Sunday':
 				newcron = minutes + ' ' + hour + ' * * 0 ' + command.strip() + '\n'
-			elif config.OPDpanel.cronmanager_dayofweek.value == 'Monday':
+			elif config.OPD_panel.cronmanager_dayofweek.value == 'Monday':
 				newcron = minutes + ' ' + hour + ' * * 1 ' + command.strip() + '\n'
-			elif config.OPDpanel.cronmanager_dayofweek.value == 'Tuesday':
+			elif config.OPD_panel.cronmanager_dayofweek.value == 'Tuesday':
 				newcron = minutes + ' ' + hour + ' * * 2 ' + command.strip() + '\n'
-			elif config.OPDpanel.cronmanager_dayofweek.value == 'Wednesday':
+			elif config.OPD_panel.cronmanager_dayofweek.value == 'Wednesday':
 				newcron = minutes + ' ' + hour + ' * * 3 ' + command.strip() + '\n'
-			elif config.OPDpanel.cronmanager_dayofweek.value == 'Thursday':
+			elif config.OPD_panel.cronmanager_dayofweek.value == 'Thursday':
 				newcron = minutes + ' ' + hour + ' * * 4 ' + command.strip() + '\n'
-			elif config.OPDpanel.cronmanager_dayofweek.value == 'Friday':
+			elif config.OPD_panel.cronmanager_dayofweek.value == 'Friday':
 				newcron = minutes + ' ' + hour + ' * * 5 ' + command.strip() + '\n'
-			elif config.OPDpanel.cronmanager_dayofweek.value == 'Saturday':
+			elif config.OPD_panel.cronmanager_dayofweek.value == 'Saturday':
 				newcron = minutes + ' ' + hour + ' * * 6 ' + command.strip() + '\n'
-		elif config.OPDpanel.cronmanager_runwhen.value == 'Monthly':
-			newcron = minutes + ' ' + hour + ' ' + str(config.OPDpanel.cronmanager_dayofmonth.value) + ' * * ' + command.strip() + '\n'
+		elif config.OPD_panel.cronmanager_runwhen.value == 'Monthly':
+			newcron = minutes + ' ' + hour + ' ' + str(config.OPD_panel.cronmanager_dayofmonth.value) + ' * * ' + command.strip() + '\n'
 		else:
-			command = config.OPDpanel.cronmanager_user_command.value
+			command = config.OPD_panel.cronmanager_user_command.value
 
 		out = open('/etc/cron/crontabs/root', 'a')
 		out.write(newcron)
 		out.close()
 		rc = system('crontab /etc/cron/crontabs/root -c /etc/cron/crontabs')
-		config.OPDpanel.cronmanager_predefined_command.value = 'None'
-		config.OPDpanel.cronmanager_user_command.value = 'None'
-		config.OPDpanel.cronmanager_runwhen.value = 'Daily'
-		config.OPDpanel.cronmanager_dayofweek.value = 'Monday'
-		config.OPDpanel.cronmanager_dayofmonth.value = "1"
-		config.OPDpanel.cronmanager_cmdtime.value, mytmpt = ([0, 0], [0, 0])
+		config.OPD_panel.cronmanager_predefined_command.value = 'None'
+		config.OPD_panel.cronmanager_user_command.value = 'None'
+		config.OPD_panel.cronmanager_runwhen.value = 'Daily'
+		config.OPD_panel.cronmanager_dayofweek.value = 'Monday'
+		config.OPD_panel.cronmanager_dayofmonth.value = "1"
+		config.OPD_panel.cronmanager_cmdtime.value, mytmpt = ([0, 0], [0, 0])
 		self.close()
