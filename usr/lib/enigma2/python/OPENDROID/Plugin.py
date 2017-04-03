@@ -10,9 +10,10 @@ from Components.ActionMap import ActionMap,NumberActionMap
 from Components.ScrollLabel import *
 from Components.Label import Label
 from Components.Pixmap import Pixmap
-from Components.MenuList import MenuList
 from Components.PluginComponent import plugins
 from Components.ConfigList import ConfigListScreen
+from Components.FileList import *
+from Components.MenuList import MenuList
 from Components.config import getConfigListEntry, config, ConfigYesNo, ConfigText, ConfigSelection, ConfigClock, NoSave, configfile
 from Components.Sources.List import List
 from Tools.LoadPixmap import LoadPixmap
@@ -354,7 +355,7 @@ class InstallFeed(Screen):
 		self.pluginlist = plugins.getPlugins(PluginDescriptor.WHERE_PLUGINMENU)
 		for plugin in self.pluginlist:
 			if plugin.icon is None:
-				png = LoadPixmap(resolveFilename(SCOPE_SKIN_IMAGE, "skin_default/icons/plugin.png"))
+				png = LoadPixmap(resolveFilename(SCOPE_SKIN_IMAGE, "/usr/lib/enigma2/python/OPENDROID/icons/plugin.png"))
 			else:
 				png = plugin.icon
 			res = (plugin.name, plugin.description, png, plugin)
