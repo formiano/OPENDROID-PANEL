@@ -52,7 +52,7 @@ def command(comandline, strip=1):
 	os.system("rm /tmp/command.txt")
 	return comandline
 
-SOFTCAM_SKIN = '<screen name="BluePanel" position="center,center" size="780,550" title="OPD Blue Panel">\n\t\t\t<widget name="choose_cam" position="10,10" size="185,30" font="Regular;22" />\n\t\t\t<widget name="config" position="10,100" size="400,100" transparent="1" />\n\t\t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/icons/default_cam.png" position="70,60" size="800,60" transparent="1" alphatest="on"/>\n\t\t\t<widget name="ecminfo" position="180,215" size="400,290" font="Regular;18" />\n\t    \t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/menu/camcenter.png" zPosition="0" position="530,50" size="160,160" transparent="1" alphatest="on" />\n\t\t\t<ePixmap position="40,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/redpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="200,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/greenpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="360,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/yellowpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="550,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/bluepanel.png" transparent="1" alphatest="on"/>\n\t\t\t<widget name="key_red" position="70,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="red" transparent="1" />\n\t\t\t<widget name="key_green" position="230,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="green" transparent="1" />\n\t\t\t<widget name="key_yellow" position="390,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="yellow" transparent="1" />\n\t\t\t<widget name="key_blue" position="580,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="blue" transparent="1" />\n\t\t</screen>'
+SOFTCAM_SKIN = '<screen name="BluePanel" position="center,center" size="780,550" title="OPD Blue Panel">\n\t\t\t<widget name="config" position="10,10" size="185,30" font="Regular;22" />\n\t\t\t<widget name="config" position="10,100" size="400,100" transparent="1" />\n\t\t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/icons/default_cam.png" position="70,60" size="800,60" transparent="1" alphatest="on"/>\n\t\t\t<widget name="ecminfo" position="180,215" size="400,290" font="Regular;18" />\n\t    \t\t<ePixmap pixmap="/usr/share/enigma2/oDreamy-FHD/menu/camcenter.png" zPosition="0" position="530,50" size="160,160" transparent="1" alphatest="on" />\n\t\t\t<ePixmap position="40,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/redpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="200,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/greenpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="360,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/yellowpanel.png" transparent="1" alphatest="on"/>\n\t\t\t<ePixmap position="550,504" size="200,40" zPosition="0" pixmap="/usr/share/enigma2/oDreamy-FHD/buttons/bluepanel.png" transparent="1" alphatest="on"/>\n\t\t\t<widget name="key_red" position="70,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="red" transparent="1" />\n\t\t\t<widget name="key_green" position="230,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="green" transparent="1" />\n\t\t\t<widget name="key_yellow" position="390,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="yellow" transparent="1" />\n\t\t\t<widget name="key_blue" position="580,504" zPosition="1" size="170,25" font="Regular;20" valign="top" halign="left" backgroundColor="blue" transparent="1" />\n\t\t</screen>'
 
 
 REFRESH = 0
@@ -188,25 +188,25 @@ class BluePanel(ConfigListScreen, Screen):
 		self.cam2sel = ConfigSelection(emusel)
 		self.setYellowKey(self.curcam)
 		try:
-		    service = self.session.nav.getCurrentService()
-		    info = service and service.info()
-		    videosize = str(info.getInfo(iServiceInformation.sVideoWidth)) + 'x' + str(info.getInfo(iServiceInformation.sVideoHeight))
-		    aspect = info.getInfo(iServiceInformation.sAspect)
-		    if aspect in (1, 2, 5, 6, 9, 10, 13, 14):
-		        aspect = '4:3'
-		    else:
-		        aspect = '16:9'
-		    provider = info.getInfoString(iServiceInformation.sProvider)
-		    chname = ServiceReference(self.session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
-		    self['lb_provider'] = Label(_('Provider: ') + provider)
-		    self['lb_channel'] = Label(_('Name: ') + chname)
-		    self['lb_aspectratio'] = Label(_('Aspect Ratio: ') + aspect)
-		    self['lb_videosize'] = Label(_('Video Size: ') + videosize)
+			service = self.session.nav.getCurrentService()
+		        info = service and service.info()
+		        videosize = str(info.getInfo(iServiceInformation.sVideoWidth)) + 'x' + str(info.getInfo(iServiceInformation.sVideoHeight))
+		        aspect = info.getInfo(iServiceInformation.sAspect)
+		        if aspect in (1, 2, 5, 6, 9, 10, 13, 14):
+				aspect = '4:3'
+		        else:
+		                aspect = '16:9'
+		                provider = info.getInfoString(iServiceInformation.sProvider)
+		                chname = ServiceReference(self.session.nav.getCurrentlyPlayingServiceReference()).getServiceName()
+		                self['lb_provider'] = Label(_('Provider: ') + provider)
+		                self['lb_channel'] = Label(_('Name: ') + chname)
+		                self['lb_aspectratio'] = Label(_('Aspect Ratio: ') + aspect)
+		                self['lb_videosize'] = Label(_('Video Size: ') + videosize)
 		except:
-		    self['lb_provider'] = Label(_('Provider: n/a'))
-		    self['lb_channel'] = Label(_('Name: n/a'))
-		    self['lb_aspectratio'] = Label(_('Aspect Ratio: n/a'))
-		    self['lb_videosize'] = Label(_('Video Size: n/a'))
+		                self['lb_provider'] = Label(_('Provider: n/a'))
+		                self['lb_channel'] = Label(_('Name: n/a'))
+		                self['lb_aspectratio'] = Label(_('Aspect Ratio: n/a'))
+		                self['lb_videosize'] = Label(_('Video Size: n/a'))
 
 	def whichCam(self):
 		
@@ -551,7 +551,7 @@ class BluePanel(ConfigListScreen, Screen):
 						print '[SOFTCAM] Python start cam 1: ' + actcam
 						self.session.openWithCallback(self.waitTime, MessageBox, _("Starting Cam 1: ") + actcam, MessageBox.TYPE_WARNING, timeout=5, simple=True)
 						self.container = eConsoleAppContainer()
-						self.container.execute(start)
+						self.container.execute(CamStart)
 					else:
 						
 						self.session.openWithCallback(self.doNothing, MessageBox, _("Creating start scripts and starting the cam"), MessageBox.TYPE_WARNING, timeout=10, simple=True)
@@ -1119,7 +1119,7 @@ class CamCheckPoller:
         except:
             print "[CAMSCHECK] Error, can not start Cam"
 
-        global isBusy
+        
         isBusy = None
 
 campoller = None
@@ -1302,7 +1302,7 @@ class CamStart(Screen):
 						os.system("echo Start attempts cam 1: " + str(self.count) + " cmd=" + start + " > " + "/tmp/camstarter.txt")
 						self.container = eConsoleAppContainer()
 						self.container.execute(start)
-						self['connect'].setPixmapNum(0)
+						self['connect'].setPixmapNum(1)
 						if camrunning2 == 0:
 							
 							if camfound2 == 1:
@@ -1313,7 +1313,7 @@ class CamStart(Screen):
 								os.system("echo Start attempts cam 2: " + str(self.count) + " cmd=" + start + " >> " + "/tmp/camstarter.txt")
 								self.container = eConsoleAppContainer()
 								self.container.execute(start)
-								self['connect'].setPixmapNum(0)
+								self['connect'].setPixmapNum(1)
 				else:
 					if camfound == 0:
 						print "[CAMSTARTER] No Cam found to start"
