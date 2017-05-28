@@ -6,10 +6,12 @@ from Components.Label import Label
 from Components.config import config, configfile
 from Screens.MessageBox import MessageBox
 from Plugins.Plugin import PluginDescriptor
-from Tools.Directories import resolveFilename, SCOPE_SKIN_IMAGE
+from Tools.Directories import fileExists, resolveFilename, SCOPE_PLUGINS, SCOPE_SKIN_IMAGE
 from Tools.LoadPixmap import LoadPixmap
+from Components.UsageConfig import *
 from AddonsPanel import * 
 from Plugin import *
+import os
 from OPENDROID.OPD_panel import OPD_panel
 from Screens.Ipkg import Ipkg
 class GreenPanel(Screen):
@@ -151,8 +153,6 @@ class InfoBarSetup(Screen, ConfigListScreen):
         self.list.append(getConfigListEntry(_('1st infobar timeout'), config.usage.infobar_timeout))
         self.list.append(getConfigListEntry(_('Show 2nd infobar'), config.usage.show_second_infobar))
         self.list.append(getConfigListEntry(_('Enable OK for channel selection'), config.usage.okbutton_mode))
-        self.list.append(getConfigListEntry(_('Enable animation for infobar'), config.misc.enableAnimationInfobar))
-        self.list.append(getConfigListEntry(_('Enable animation for moviebar'), config.misc.enableAnimationInfobarMovie))
         self.list.append(getConfigListEntry(_('Enable volume control with LEFT/RIGHT arrow buttons'), config.usage.volume_instead_of_channelselection))
         self.list.append(getConfigListEntry(_('Enable zapping with UP/DOWN arrow buttons'), config.usage.zap_with_arrow_buttons))
         self.list.append(getConfigListEntry(_('Infobar frontend data source'), config.usage.infobar_frontend_source))

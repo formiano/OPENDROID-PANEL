@@ -211,6 +211,8 @@ class OPD_panel(Screen, InfoBarPiP):
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('LogManager'), _('Log-Manager'), 'LogManager')))
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('SoftwareManager'), _('Software-Manager'), 'software-manager')))
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('services'), _('services'), 'services')))
+        self.Mlist.append(MenuEntryItem((InfoEntryComponent('Infobar Setup'), _('Infobar Setup'), 'Infobar Setup')))
+        self.Mlist.append(MenuEntryItem((InfoEntryComponent('Decoding Setup'), _('Decoding Setup'), 'Decoding Setup')))
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('Infos'), _('Infos'), 'Infos')))
         self.onChangedEntry = []
         if getDesktop(0).size().width() == 1280:
@@ -328,6 +330,12 @@ class OPD_panel(Screen, InfoBarPiP):
             self.System()
         elif menu == 'CronManager':
             self.session.open(CronManager)
+        elif menu == 'Infobar Setup':
+            from OPENDROID.GreenPanel import InfoBarSetup
+            self.session.open(InfoBarSetup)
+        elif menu == 'Decoding Setup':
+            from OPENDROID.GreenPanel import DecodingSetup
+            self.session.open(DecodingSetup)
         elif menu == 'JobManager':
             self.session.open(ScriptRunner)
         elif menu == 'software-manager':
