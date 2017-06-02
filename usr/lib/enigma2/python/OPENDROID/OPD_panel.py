@@ -357,7 +357,7 @@ class OPD_panel(Screen, InfoBarPiP):
         elif menu == 'MultiQuickButton':
             self.session.open(MultiQuickButton)
         elif menu == 'MountManager':
-            self.session.open(HddMount)
+            self.session.open(DeviceManager)
         elif menu == 'OscamSmartcard':
             self.session.open(OscamSmartcard)
         elif menu == 'SwapManager':
