@@ -212,8 +212,10 @@ class OPD_panel(Screen, InfoBarPiP):
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('SoftwareManager'), _('Software-Manager'), 'software-manager')))
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('services'), _('services'), 'services')))
         self.Mlist.append(MenuEntryItem((InfoEntryComponent('Infos'), _('Infos'), 'Infos')))
-        self.onChangedEntry = []
-        if getDesktop(0).size().width() == 1280:
+        self.Mlist.append(MenuEntryItem((InfoEntryComponent('Infobar Setup'), _('Infobar Setup'), 'Infobar Setup')))
+	self.onChangedEntry = []
+        self.Mlist.append(MenuEntryItem((InfoEntryComponent('Decoding Setup'), _('Decoding Setup'), 'Decoding Setup')))
+	if getDesktop(0).size().width() == 1280:
             self['Mlist'] = PanelList([])
         else:
             self['Mlist'] = PanelList([], font0=32, font1=24, itemHeight=50)
@@ -328,6 +330,12 @@ class OPD_panel(Screen, InfoBarPiP):
             self.System()
         elif menu == 'CronManager':
             self.session.open(CronManager)
+	elif menu == 'Infobar Setup':
+	    from OPENDROID.GreenPanel import InfoBarSetup
+	    self.session.open(InfoBarSetup)
+	elif menu == 'Decoding Setup':
+	    from OPENDROID.GreenPanel import DecodingSetup
+	    self.session.open(DecodingSetup)
         elif menu == 'JobManager':
             self.session.open(ScriptRunner)
         elif menu == 'software-manager':
@@ -349,7 +357,7 @@ class OPD_panel(Screen, InfoBarPiP):
         elif menu == 'MultiQuickButton':
             self.session.open(MultiQuickButton)
         elif menu == 'MountManager':
-            self.session.open(HddMount)
+            self.session.open(DeviceManager)
         elif menu == 'OscamSmartcard':
             self.session.open(OscamSmartcard)
         elif menu == 'SwapManager':
