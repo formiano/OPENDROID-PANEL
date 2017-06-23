@@ -319,7 +319,7 @@ class RemoveIPK(Screen):
 class InstallFeed(Screen):
 	skin = """
 		<screen name="InstallFeed" position="center,center" size="750,560" title="Insatall extensions from feed" >
-		<widget source="menu" render="Listbox" position="15,10" size="720,450" scrollbarMode="showOnDemand">
+		<widget source="list" render="Listbox" position="15,10" size="720,450" scrollbarMode="showOnDemand">
 		<convert type="StringList" />
 		</widget>
 		<widget source="key_red" render="Label" position="65,510" zPosition="2" size="170,30" font="Regular;20" foregroundColor="red" transparent="1" />
