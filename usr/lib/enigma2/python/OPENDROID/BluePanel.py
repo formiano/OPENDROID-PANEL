@@ -454,7 +454,7 @@ class BluePanel(ConfigListScreen, Screen):
 		import time
 		self.container = eConsoleAppContainer()
 
-		if config.softcam_camstartMode.value == "0" or not fileExists('/etc/init.d/softcam'):
+		if config.softcam_camstartMode.value == "1" or not fileExists('/etc/init.d/softcam'):
 			if oldcam:
 				print '[SOFTCAM] Python stop cam 1: ' + oldcam
 				self.container.execute(self.emuStop[oldcamIndex])
@@ -510,7 +510,7 @@ class BluePanel(ConfigListScreen, Screen):
 				if self.cam1sel.value == self.cam2sel.value:
 					self.session.openWithCallback(self.doNothing, MessageBox, _("No Cam started !!\n\nCam 1 must be different from Cam 2"), MessageBox.TYPE_ERROR, simple=True)
 					return
-				if config.softcam_camstartMode.value == "0":
+				if config.softcam_camstartMode.value == "1":
 					self.Stopcam()
 
 				self.camIndex = self.cam1sel.getIndex() -1
@@ -523,7 +523,7 @@ class BluePanel(ConfigListScreen, Screen):
 					if self.checkBinName(self.emuBin[self.camIndex], start):
 						self.session.openWithCallback(self.startcam2, MessageBox, actcam + _(" Not Started !!\n\nCam binname must be in the start command line\nCheck your emu config file"), MessageBox.TYPE_ERROR, simple=True)
 						return
-					if config.softcam_camstartMode.value == "0":
+					if config.softcam_camstartMode.value == "1":
 						print '[SOFTCAM] Python start cam 1: ' + actcam
 						self.session.openWithCallback(self.waitTime, MessageBox, _("Starting Cam 1: ") + actcam, MessageBox.TYPE_WARNING, timeout=5, simple=True)
 						self.container = eConsoleAppContainer()
@@ -1148,7 +1148,7 @@ class CamStart(Screen):
 		self.timer = eTimer()
 		self.timer.timeout.get().append(self.timerEvent)
 		self.list.append(getConfigListEntry(_("Start Mode"), config.softcam_camstartMode))
-		if config.softcam_camstartMode.value == "0":
+		if config.softcam_camstartMode.value == "1":
 		        self.list.append(getConfigListEntry(_("Start attempts"), config.softcam.restartAttempts))
 		        self.list.append(getConfigListEntry(_("Time between start attempts (sec.)"), config.softcam.restartTime))
 		        self.list.append(getConfigListEntry(_("Stop check when cam is running"), config.softcam.restartRunning))
