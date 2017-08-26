@@ -224,9 +224,9 @@ class AdvInstallIpk(Screen):
 				"yellow": self.okInstAll,
 			},-1)
 		self.list = [ ]
-		self["key_red"] = StaticText(_("Close"))
-		self["key_green"] = StaticText(_("Install"))
-		self["key_yellow"] = StaticText(_("Install All"))
+		self["key_red"] = Label(_('Exit'))
+		self["key_green"] = Label(_("Install"))
+		self["key_yellow"] = Label(_("Install All"))
 		
 	def nList(self):
 		self.list = []
@@ -271,9 +271,9 @@ class RemoveIPK(Screen):
 	def __init__(self, session, args=None):
 		Screen.__init__(self, session)
 		self.session = session
-		self["key_red"] = StaticText(_("Close"))
-		self["key_green"] = StaticText(_("UnInstall"))
-		self["key_yellow"] = StaticText(_("Force UnInstall"))
+		self["key_red"] = Label(_("Close"))
+		self["key_green"] = Label(_("UnInstall"))
+		self["key_yellow"] = Label(_("Force UnInstall"))
 		self.list = []
 		self["menu"] = List(self.list)
 		self.nList()
